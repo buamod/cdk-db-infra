@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MyChart = void 0;
+const cdk8s_1 = require("cdk8s");
+class MyChart extends cdk8s_1.Chart {
+    constructor(scope, id, props = {}) {
+        super(scope, id, props);
+        // define resources here
+    }
+}
+exports.MyChart = MyChart;
+const app = new cdk8s_1.App();
+new MyChart(app, 'k8s-db-infrastructure');
+app.synth();
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibWFpbi5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIm1haW4udHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O0FBQ0EsaUNBQStDO0FBRS9DLE1BQWEsT0FBUSxTQUFRLGFBQUs7SUFDaEMsWUFBWSxLQUFnQixFQUFFLEVBQVUsRUFBRSxRQUFvQixFQUFHO1FBQy9ELEtBQUssQ0FBQyxLQUFLLEVBQUUsRUFBRSxFQUFFLEtBQUssQ0FBQyxDQUFDO1FBRXhCLHdCQUF3QjtJQUUxQixDQUFDO0NBQ0Y7QUFQRCwwQkFPQztBQUVELE1BQU0sR0FBRyxHQUFHLElBQUksV0FBRyxFQUFFLENBQUM7QUFDdEIsSUFBSSxPQUFPLENBQUMsR0FBRyxFQUFFLHVCQUF1QixDQUFDLENBQUM7QUFDMUMsR0FBRyxDQUFDLEtBQUssRUFBRSxDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgQ29uc3RydWN0IH0gZnJvbSAnY29uc3RydWN0cyc7XG5pbXBvcnQgeyBBcHAsIENoYXJ0LCBDaGFydFByb3BzIH0gZnJvbSAnY2RrOHMnO1xuXG5leHBvcnQgY2xhc3MgTXlDaGFydCBleHRlbmRzIENoYXJ0IHtcbiAgY29uc3RydWN0b3Ioc2NvcGU6IENvbnN0cnVjdCwgaWQ6IHN0cmluZywgcHJvcHM6IENoYXJ0UHJvcHMgPSB7IH0pIHtcbiAgICBzdXBlcihzY29wZSwgaWQsIHByb3BzKTtcblxuICAgIC8vIGRlZmluZSByZXNvdXJjZXMgaGVyZVxuXG4gIH1cbn1cblxuY29uc3QgYXBwID0gbmV3IEFwcCgpO1xubmV3IE15Q2hhcnQoYXBwLCAnazhzLWRiLWluZnJhc3RydWN0dXJlJyk7XG5hcHAuc3ludGgoKTtcbiJdfQ==
