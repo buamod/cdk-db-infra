@@ -1,7 +1,7 @@
 # Kubernetes PostgreSQL Infrastructure with CDK8s
 
 ## Project Overview
-This project implements a PostgreSQL database infrastructure using CDK8s and the Zalando Postgres Operator on a Kubernetes cluster hosted on Hetzner. The solution provides a reusable framework for creating and managing PostgreSQL databases.
+This project implements a PostgreSQL database infrastructure using CDK8s and the Zalando Postgres Operator on a Kubernetes cluster. The solution provides a reusable framework for creating and managing PostgreSQL databases.
 
 ## Architecture Decisions
 
@@ -10,14 +10,14 @@ We chose the Zalando Postgres Operator over alternatives (Cloud Native Postgres,
 - Production-proven reliability in self-hosted environments
 - Native support for point-in-time recovery (PITR)
 - Lightweight resource requirements suitable for VPS deployment
-- Extensive high availability features
+- Extensive high-availability features
 - Strong community support and documentation
 
 ## Setup Instructions
 
 ### Prerequisites
 - Node.js installed
-- Kubernetes cluster access configured
+- Kubernetes cluster access configured ( check the clusters folder for local setup )
 - `kubectl` CLI installed
 
 ### Project Setup
