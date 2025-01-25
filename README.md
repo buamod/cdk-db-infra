@@ -41,6 +41,16 @@ kubectl apply -f https://raw.githubusercontent.com/zalando/postgres-operator/mas
 kubectl apply -f https://raw.githubusercontent.com/zalando/postgres-operator/master/manifests/operatorconfiguration.crd.yaml
 ```
 
+### Apply ConfigMap for operator settings
+```sh
+kubectl apply -f https://raw.githubusercontent.com/zalando/postgres-operator/master/manifests/configmap.yaml
+```
+
+### Apply RBAC and ServiceAccount configurations
+```sh
+kubectl apply -f https://raw.githubusercontent.com/zalando/postgres-operator/master/manifests/operator-service-account-rbac.yaml
+```
+
 ### Synthesize and deploy:
 
 ```sh

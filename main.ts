@@ -29,7 +29,8 @@ export class PostgresOperatorChart extends Chart {
             containers: [{
               name: 'postgres-operator',
               image: 'registry.opensource.zalan.do/acid/postgres-operator:latest'
-            }]
+            }],
+            serviceAccountName: 'postgres-operator'  // Add this line
           }
         }
       }
