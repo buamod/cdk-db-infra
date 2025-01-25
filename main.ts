@@ -1,11 +1,36 @@
 import { Construct } from 'constructs';
 import { App, Chart } from 'cdk8s';
-import { KubeDeployment } from './imports/k8s';
+import { KubeDeployment, KubeConfigMap, KubeSecret} from './imports/k8s';
 import { PostgresDatabase } from './database';
 
 export class PostgresOperatorChart extends Chart {
   constructor(scope: Construct, id: string) {
     super(scope, id);
+
+    // Operator secret
+    new KubeSecret(this, 'postgres-operator-secret', {
+      metadata: {
+        name: 'postgresql-operator'
+      },
+      stringData: {
+        username: 'postgres',
+        password: 'postgres'
+      }
+    });
+
+    // Operator configuration
+    new KubeConfigMap(this, 'postgres-operator-config', {
+      metadata: {
+        name: 'postgres-operator'
+      },
+      data: {
+        enable_team_superuser: 'false',
+        enable_teams_api: 'false',
+        enable_team_member_deprecation: 'false',
+        username: 'postgres',
+        password: 'postgres'
+      }
+    });
 
     // Basic operator deployment
     new KubeDeployment(this, 'postgres-operator', {

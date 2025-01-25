@@ -25,7 +25,8 @@ export class PostgresDatabase extends Construct {
           version: props.version || '14',
         },
         volume: {
-          size: props.size || '10Gi'
+          size: props.size || '10Gi',
+          storageClass: 'local-path'  // Add this line - using k3d's default storage class
         },
         users: {
           [props.owner || 'postgres']: ['superuser']

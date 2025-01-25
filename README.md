@@ -137,3 +137,14 @@ I would prefer using Terraform with the Kubernetes provider for this implementat
 - Simpler learning curve for teams already familiar with Terraform
 
 In my opinion the added abstraction layer of CDK8s, while powerful, doesn't provide enough benefits to justify moving away from Terraform's more straightforward and widely-adopted approach to infrastructure management.
+
+
+
+
+## Important Configuration Notes
+
+The Zalando Postgres Operator requires certain configurations to work in development environments:
+
+1. Team API Integration is disabled by default through a ConfigMap to simplify local development
+2. Superuser access is configured for easier database management
+3. The operator uses local storage for development purposes
