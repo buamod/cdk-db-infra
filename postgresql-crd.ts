@@ -4,9 +4,9 @@ import { ApiObject } from 'cdk8s';
 import { PostgresqlSpecPostgresqlVersion } from './imports/acid.zalan.do';
 
 export interface PostgresqlCrdProps {
-  group: string;                  // The API group for the CRD
-  versions: string[];             // List of versions (e.g., ['v1'])
-  scope: 'Namespaced' | 'Cluster'; // Scope of the CRD
+  group: string;                 
+  versions: string[];             
+  scope: 'Namespaced' | 'Cluster';
 }
 
 export class PostgresqlCrd extends Construct {

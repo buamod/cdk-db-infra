@@ -121,7 +121,6 @@ export class PostgresOperatorChart extends Chart {
                   name: 'KUBERNETES_POD_NAMESPACE',
                   valueFrom: { fieldRef: { fieldPath: 'metadata.namespace' } }
                 },
-                // Secret references added here
                 {
                   name: 'POSTGRES_SUPERUSER_USERNAME',
                   valueFrom: {
@@ -161,7 +160,7 @@ export class PostgresOperatorChart extends Chart {
     new PostgresDatabase(this, 'example-db', {
       name: 'example-db',
       size: '10Gi',
-      version: PostgresqlSpecPostgresqlVersion.VALUE_14
+      version: PostgresqlSpecPostgresqlVersion.VALUE_14  
     });
   }
 }
