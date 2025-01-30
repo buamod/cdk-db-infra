@@ -24,6 +24,9 @@ We chose the Zalando Postgres Operator over alternatives (Cloud Native Postgres,
 
 Install Zalando Postgres Operator CRDs:
 
+curl https://raw.githubusercontent.com/zalando/postgres-operator/refs/heads/master/manifests/postgresql.crd.yaml
+
+cdk8s import -p zalando-crd postgresql-operator.crds.yaml
 
 ### For Local k8s only ( Testing )
 - install k3s [See the other README](./clusters/local/README.md)
