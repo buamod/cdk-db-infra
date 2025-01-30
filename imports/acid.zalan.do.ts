@@ -6,40 +6,40 @@ import { Construct } from 'constructs';
 /**
  *
  *
- * @schema OperatorConfiguration
+ * @schema postgresql
  */
-export class OperatorConfiguration extends ApiObject {
+export class Postgresql extends ApiObject {
   /**
-   * Returns the apiVersion and kind for "OperatorConfiguration"
+   * Returns the apiVersion and kind for "postgresql"
    */
   public static readonly GVK: GroupVersionKind = {
     apiVersion: 'acid.zalan.do/v1',
-    kind: 'OperatorConfiguration',
+    kind: 'postgresql',
   }
 
   /**
-   * Renders a Kubernetes manifest for "OperatorConfiguration".
+   * Renders a Kubernetes manifest for "postgresql".
    *
    * This can be used to inline resource manifests inside other objects (e.g. as templates).
    *
    * @param props initialization props
    */
-  public static manifest(props: OperatorConfigurationProps): any {
+  public static manifest(props: PostgresqlProps): any {
     return {
-      ...OperatorConfiguration.GVK,
-      ...toJson_OperatorConfigurationProps(props),
+      ...Postgresql.GVK,
+      ...toJson_PostgresqlProps(props),
     };
   }
 
   /**
-   * Defines a "OperatorConfiguration" API object
+   * Defines a "postgresql" API object
    * @param scope the scope in which to define this object
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(scope: Construct, id: string, props: OperatorConfigurationProps) {
+  public constructor(scope: Construct, id: string, props: PostgresqlProps) {
     super(scope, id, {
-      ...OperatorConfiguration.GVK,
+      ...Postgresql.GVK,
       ...props,
     });
   }
@@ -51,37 +51,37 @@ export class OperatorConfiguration extends ApiObject {
     const resolved = super.toJson();
 
     return {
-      ...OperatorConfiguration.GVK,
-      ...toJson_OperatorConfigurationProps(resolved),
+      ...Postgresql.GVK,
+      ...toJson_PostgresqlProps(resolved),
     };
   }
 }
 
 /**
- * @schema OperatorConfiguration
+ * @schema postgresql
  */
-export interface OperatorConfigurationProps {
+export interface PostgresqlProps {
   /**
-   * @schema OperatorConfiguration#metadata
+   * @schema postgresql#metadata
    */
   readonly metadata?: ApiObjectMetadata;
 
   /**
-   * @schema OperatorConfiguration#configuration
+   * @schema postgresql#spec
    */
-  readonly configuration: OperatorConfigurationConfiguration;
+  readonly spec: PostgresqlSpec;
 
 }
 
 /**
- * Converts an object of type 'OperatorConfigurationProps' to JSON representation.
+ * Converts an object of type 'PostgresqlProps' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_OperatorConfigurationProps(obj: OperatorConfigurationProps | undefined): Record<string, any> | undefined {
+export function toJson_PostgresqlProps(obj: PostgresqlProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
     'metadata': obj.metadata,
-    'configuration': toJson_OperatorConfigurationConfiguration(obj.configuration),
+    'spec': toJson_PostgresqlSpec(obj.spec),
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
@@ -89,1100 +89,308 @@ export function toJson_OperatorConfigurationProps(obj: OperatorConfigurationProp
 /* eslint-enable max-len, quote-props */
 
 /**
- * @schema OperatorConfigurationConfiguration
+ * @schema PostgresqlSpec
  */
-export interface OperatorConfigurationConfiguration {
+export interface PostgresqlSpec {
   /**
-   * @schema OperatorConfigurationConfiguration#crd_categories
+   * @schema PostgresqlSpec#additionalVolumes
    */
-  readonly crdCategories?: string[];
+  readonly additionalVolumes?: PostgresqlSpecAdditionalVolumes[];
 
   /**
-   * @schema OperatorConfigurationConfiguration#docker_image
+   * @schema PostgresqlSpec#allowedSourceRanges
+   */
+  readonly allowedSourceRanges?: string[];
+
+  /**
+   * @schema PostgresqlSpec#clone
+   */
+  readonly clone?: PostgresqlSpecClone;
+
+  /**
+   * @schema PostgresqlSpec#connectionPooler
+   */
+  readonly connectionPooler?: PostgresqlSpecConnectionPooler;
+
+  /**
+   * @schema PostgresqlSpec#databases
+   */
+  readonly databases?: { [key: string]: string };
+
+  /**
+   * @schema PostgresqlSpec#dockerImage
    */
   readonly dockerImage?: string;
 
   /**
-   * @schema OperatorConfigurationConfiguration#enable_crd_registration
+   * @schema PostgresqlSpec#enableConnectionPooler
    */
-  readonly enableCrdRegistration?: boolean;
+  readonly enableConnectionPooler?: boolean;
 
   /**
-   * deprecated
-   *
-   * @schema OperatorConfigurationConfiguration#enable_crd_validation
+   * @schema PostgresqlSpec#enableReplicaConnectionPooler
    */
-  readonly enableCrdValidation?: boolean;
+  readonly enableReplicaConnectionPooler?: boolean;
 
   /**
-   * @schema OperatorConfigurationConfiguration#enable_lazy_spilo_upgrade
+   * @schema PostgresqlSpec#enableLogicalBackup
    */
-  readonly enableLazySpiloUpgrade?: boolean;
+  readonly enableLogicalBackup?: boolean;
 
   /**
-   * @schema OperatorConfigurationConfiguration#enable_pgversion_env_var
-   */
-  readonly enablePgversionEnvVar?: boolean;
-
-  /**
-   * @schema OperatorConfigurationConfiguration#enable_shm_volume
-   */
-  readonly enableShmVolume?: boolean;
-
-  /**
-   * @schema OperatorConfigurationConfiguration#enable_spilo_wal_path_compat
-   */
-  readonly enableSpiloWalPathCompat?: boolean;
-
-  /**
-   * @schema OperatorConfigurationConfiguration#enable_team_id_clustername_prefix
-   */
-  readonly enableTeamIdClusternamePrefix?: boolean;
-
-  /**
-   * @schema OperatorConfigurationConfiguration#etcd_host
-   */
-  readonly etcdHost?: string;
-
-  /**
-   * @schema OperatorConfigurationConfiguration#ignore_instance_limits_annotation_key
-   */
-  readonly ignoreInstanceLimitsAnnotationKey?: string;
-
-  /**
-   * @schema OperatorConfigurationConfiguration#kubernetes_use_configmaps
-   */
-  readonly kubernetesUseConfigmaps?: boolean;
-
-  /**
-   * -1 = disabled
-   *
-   * @schema OperatorConfigurationConfiguration#max_instances
-   */
-  readonly maxInstances?: number;
-
-  /**
-   * -1 = disabled
-   *
-   * @schema OperatorConfigurationConfiguration#min_instances
-   */
-  readonly minInstances?: number;
-
-  /**
-   * @schema OperatorConfigurationConfiguration#resync_period
-   */
-  readonly resyncPeriod?: string;
-
-  /**
-   * @schema OperatorConfigurationConfiguration#repair_period
-   */
-  readonly repairPeriod?: string;
-
-  /**
-   * @schema OperatorConfigurationConfiguration#set_memory_request_to_limit
-   */
-  readonly setMemoryRequestToLimit?: boolean;
-
-  /**
-   * @schema OperatorConfigurationConfiguration#sidecar_docker_images
-   */
-  readonly sidecarDockerImages?: { [key: string]: string };
-
-  /**
-   * @schema OperatorConfigurationConfiguration#sidecars
-   */
-  readonly sidecars?: any[];
-
-  /**
-   * @schema OperatorConfigurationConfiguration#workers
-   */
-  readonly workers?: number;
-
-  /**
-   * @schema OperatorConfigurationConfiguration#users
-   */
-  readonly users?: OperatorConfigurationConfigurationUsers;
-
-  /**
-   * @schema OperatorConfigurationConfiguration#major_version_upgrade
-   */
-  readonly majorVersionUpgrade?: OperatorConfigurationConfigurationMajorVersionUpgrade;
-
-  /**
-   * @schema OperatorConfigurationConfiguration#kubernetes
-   */
-  readonly kubernetes?: OperatorConfigurationConfigurationKubernetes;
-
-  /**
-   * @schema OperatorConfigurationConfiguration#postgres_pod_resources
-   */
-  readonly postgresPodResources?: OperatorConfigurationConfigurationPostgresPodResources;
-
-  /**
-   * @schema OperatorConfigurationConfiguration#timeouts
-   */
-  readonly timeouts?: OperatorConfigurationConfigurationTimeouts;
-
-  /**
-   * @schema OperatorConfigurationConfiguration#load_balancer
-   */
-  readonly loadBalancer?: OperatorConfigurationConfigurationLoadBalancer;
-
-  /**
-   * @schema OperatorConfigurationConfiguration#aws_or_gcp
-   */
-  readonly awsOrGcp?: OperatorConfigurationConfigurationAwsOrGcp;
-
-  /**
-   * @schema OperatorConfigurationConfiguration#logical_backup
-   */
-  readonly logicalBackup?: OperatorConfigurationConfigurationLogicalBackup;
-
-  /**
-   * @schema OperatorConfigurationConfiguration#debug
-   */
-  readonly debug?: OperatorConfigurationConfigurationDebug;
-
-  /**
-   * @schema OperatorConfigurationConfiguration#teams_api
-   */
-  readonly teamsApi?: OperatorConfigurationConfigurationTeamsApi;
-
-  /**
-   * @schema OperatorConfigurationConfiguration#logging_rest_api
-   */
-  readonly loggingRestApi?: OperatorConfigurationConfigurationLoggingRestApi;
-
-  /**
-   * @schema OperatorConfigurationConfiguration#scalyr
-   */
-  readonly scalyr?: OperatorConfigurationConfigurationScalyr;
-
-  /**
-   * @schema OperatorConfigurationConfiguration#connection_pooler
-   */
-  readonly connectionPooler?: OperatorConfigurationConfigurationConnectionPooler;
-
-  /**
-   * @schema OperatorConfigurationConfiguration#patroni
-   */
-  readonly patroni?: OperatorConfigurationConfigurationPatroni;
-
-}
-
-/**
- * Converts an object of type 'OperatorConfigurationConfiguration' to JSON representation.
- */
-/* eslint-disable max-len, quote-props */
-export function toJson_OperatorConfigurationConfiguration(obj: OperatorConfigurationConfiguration | undefined): Record<string, any> | undefined {
-  if (obj === undefined) { return undefined; }
-  const result = {
-    'crd_categories': obj.crdCategories?.map(y => y),
-    'docker_image': obj.dockerImage,
-    'enable_crd_registration': obj.enableCrdRegistration,
-    'enable_crd_validation': obj.enableCrdValidation,
-    'enable_lazy_spilo_upgrade': obj.enableLazySpiloUpgrade,
-    'enable_pgversion_env_var': obj.enablePgversionEnvVar,
-    'enable_shm_volume': obj.enableShmVolume,
-    'enable_spilo_wal_path_compat': obj.enableSpiloWalPathCompat,
-    'enable_team_id_clustername_prefix': obj.enableTeamIdClusternamePrefix,
-    'etcd_host': obj.etcdHost,
-    'ignore_instance_limits_annotation_key': obj.ignoreInstanceLimitsAnnotationKey,
-    'kubernetes_use_configmaps': obj.kubernetesUseConfigmaps,
-    'max_instances': obj.maxInstances,
-    'min_instances': obj.minInstances,
-    'resync_period': obj.resyncPeriod,
-    'repair_period': obj.repairPeriod,
-    'set_memory_request_to_limit': obj.setMemoryRequestToLimit,
-    'sidecar_docker_images': ((obj.sidecarDockerImages) === undefined) ? undefined : (Object.entries(obj.sidecarDockerImages).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {})),
-    'sidecars': obj.sidecars?.map(y => y),
-    'workers': obj.workers,
-    'users': toJson_OperatorConfigurationConfigurationUsers(obj.users),
-    'major_version_upgrade': toJson_OperatorConfigurationConfigurationMajorVersionUpgrade(obj.majorVersionUpgrade),
-    'kubernetes': toJson_OperatorConfigurationConfigurationKubernetes(obj.kubernetes),
-    'postgres_pod_resources': toJson_OperatorConfigurationConfigurationPostgresPodResources(obj.postgresPodResources),
-    'timeouts': toJson_OperatorConfigurationConfigurationTimeouts(obj.timeouts),
-    'load_balancer': toJson_OperatorConfigurationConfigurationLoadBalancer(obj.loadBalancer),
-    'aws_or_gcp': toJson_OperatorConfigurationConfigurationAwsOrGcp(obj.awsOrGcp),
-    'logical_backup': toJson_OperatorConfigurationConfigurationLogicalBackup(obj.logicalBackup),
-    'debug': toJson_OperatorConfigurationConfigurationDebug(obj.debug),
-    'teams_api': toJson_OperatorConfigurationConfigurationTeamsApi(obj.teamsApi),
-    'logging_rest_api': toJson_OperatorConfigurationConfigurationLoggingRestApi(obj.loggingRestApi),
-    'scalyr': toJson_OperatorConfigurationConfigurationScalyr(obj.scalyr),
-    'connection_pooler': toJson_OperatorConfigurationConfigurationConnectionPooler(obj.connectionPooler),
-    'patroni': toJson_OperatorConfigurationConfigurationPatroni(obj.patroni),
-  };
-  // filter undefined values
-  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
-}
-/* eslint-enable max-len, quote-props */
-
-/**
- * @schema OperatorConfigurationConfigurationUsers
- */
-export interface OperatorConfigurationConfigurationUsers {
-  /**
-   * @schema OperatorConfigurationConfigurationUsers#additional_owner_roles
-   */
-  readonly additionalOwnerRoles?: string[];
-
-  /**
-   * @schema OperatorConfigurationConfigurationUsers#enable_password_rotation
-   */
-  readonly enablePasswordRotation?: boolean;
-
-  /**
-   * @schema OperatorConfigurationConfigurationUsers#password_rotation_interval
-   */
-  readonly passwordRotationInterval?: number;
-
-  /**
-   * @schema OperatorConfigurationConfigurationUsers#password_rotation_user_retention
-   */
-  readonly passwordRotationUserRetention?: number;
-
-  /**
-   * @schema OperatorConfigurationConfigurationUsers#replication_username
-   */
-  readonly replicationUsername?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationUsers#super_username
-   */
-  readonly superUsername?: string;
-
-}
-
-/**
- * Converts an object of type 'OperatorConfigurationConfigurationUsers' to JSON representation.
- */
-/* eslint-disable max-len, quote-props */
-export function toJson_OperatorConfigurationConfigurationUsers(obj: OperatorConfigurationConfigurationUsers | undefined): Record<string, any> | undefined {
-  if (obj === undefined) { return undefined; }
-  const result = {
-    'additional_owner_roles': obj.additionalOwnerRoles?.map(y => y),
-    'enable_password_rotation': obj.enablePasswordRotation,
-    'password_rotation_interval': obj.passwordRotationInterval,
-    'password_rotation_user_retention': obj.passwordRotationUserRetention,
-    'replication_username': obj.replicationUsername,
-    'super_username': obj.superUsername,
-  };
-  // filter undefined values
-  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
-}
-/* eslint-enable max-len, quote-props */
-
-/**
- * @schema OperatorConfigurationConfigurationMajorVersionUpgrade
- */
-export interface OperatorConfigurationConfigurationMajorVersionUpgrade {
-  /**
-   * @schema OperatorConfigurationConfigurationMajorVersionUpgrade#major_version_upgrade_mode
-   */
-  readonly majorVersionUpgradeMode?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationMajorVersionUpgrade#major_version_upgrade_team_allow_list
-   */
-  readonly majorVersionUpgradeTeamAllowList?: string[];
-
-  /**
-   * @schema OperatorConfigurationConfigurationMajorVersionUpgrade#minimal_major_version
-   */
-  readonly minimalMajorVersion?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationMajorVersionUpgrade#target_major_version
-   */
-  readonly targetMajorVersion?: string;
-
-}
-
-/**
- * Converts an object of type 'OperatorConfigurationConfigurationMajorVersionUpgrade' to JSON representation.
- */
-/* eslint-disable max-len, quote-props */
-export function toJson_OperatorConfigurationConfigurationMajorVersionUpgrade(obj: OperatorConfigurationConfigurationMajorVersionUpgrade | undefined): Record<string, any> | undefined {
-  if (obj === undefined) { return undefined; }
-  const result = {
-    'major_version_upgrade_mode': obj.majorVersionUpgradeMode,
-    'major_version_upgrade_team_allow_list': obj.majorVersionUpgradeTeamAllowList?.map(y => y),
-    'minimal_major_version': obj.minimalMajorVersion,
-    'target_major_version': obj.targetMajorVersion,
-  };
-  // filter undefined values
-  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
-}
-/* eslint-enable max-len, quote-props */
-
-/**
- * @schema OperatorConfigurationConfigurationKubernetes
- */
-export interface OperatorConfigurationConfigurationKubernetes {
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#additional_pod_capabilities
-   */
-  readonly additionalPodCapabilities?: string[];
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#cluster_domain
-   */
-  readonly clusterDomain?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#cluster_labels
-   */
-  readonly clusterLabels?: { [key: string]: string };
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#cluster_name_label
-   */
-  readonly clusterNameLabel?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#custom_pod_annotations
-   */
-  readonly customPodAnnotations?: { [key: string]: string };
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#delete_annotation_date_key
-   */
-  readonly deleteAnnotationDateKey?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#delete_annotation_name_key
-   */
-  readonly deleteAnnotationNameKey?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#downscaler_annotations
-   */
-  readonly downscalerAnnotations?: string[];
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#enable_cross_namespace_secret
-   */
-  readonly enableCrossNamespaceSecret?: boolean;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#enable_finalizers
-   */
-  readonly enableFinalizers?: boolean;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#enable_init_containers
-   */
-  readonly enableInitContainers?: boolean;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#enable_owner_references
-   */
-  readonly enableOwnerReferences?: boolean;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#enable_persistent_volume_claim_deletion
-   */
-  readonly enablePersistentVolumeClaimDeletion?: boolean;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#enable_pod_antiaffinity
-   */
-  readonly enablePodAntiaffinity?: boolean;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#enable_pod_disruption_budget
-   */
-  readonly enablePodDisruptionBudget?: boolean;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#enable_readiness_probe
-   */
-  readonly enableReadinessProbe?: boolean;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#enable_secrets_deletion
-   */
-  readonly enableSecretsDeletion?: boolean;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#enable_sidecars
-   */
-  readonly enableSidecars?: boolean;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#ignored_annotations
-   */
-  readonly ignoredAnnotations?: string[];
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#infrastructure_roles_secret_name
-   */
-  readonly infrastructureRolesSecretName?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#infrastructure_roles_secrets
-   */
-  readonly infrastructureRolesSecrets?: OperatorConfigurationConfigurationKubernetesInfrastructureRolesSecrets[];
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#inherited_annotations
-   */
-  readonly inheritedAnnotations?: string[];
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#inherited_labels
-   */
-  readonly inheritedLabels?: string[];
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#master_pod_move_timeout
-   */
-  readonly masterPodMoveTimeout?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#node_readiness_label
-   */
-  readonly nodeReadinessLabel?: { [key: string]: string };
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#node_readiness_label_merge
-   */
-  readonly nodeReadinessLabelMerge?: OperatorConfigurationConfigurationKubernetesNodeReadinessLabelMerge;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#oauth_token_secret_name
-   */
-  readonly oauthTokenSecretName?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#pdb_master_label_selector
-   */
-  readonly pdbMasterLabelSelector?: boolean;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#pdb_name_format
-   */
-  readonly pdbNameFormat?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#persistent_volume_claim_retention_policy
-   */
-  readonly persistentVolumeClaimRetentionPolicy?: OperatorConfigurationConfigurationKubernetesPersistentVolumeClaimRetentionPolicy;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#pod_antiaffinity_preferred_during_scheduling
-   */
-  readonly podAntiaffinityPreferredDuringScheduling?: boolean;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#pod_antiaffinity_topology_key
-   */
-  readonly podAntiaffinityTopologyKey?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#pod_environment_configmap
-   */
-  readonly podEnvironmentConfigmap?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#pod_environment_secret
-   */
-  readonly podEnvironmentSecret?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#pod_management_policy
-   */
-  readonly podManagementPolicy?: OperatorConfigurationConfigurationKubernetesPodManagementPolicy;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#pod_priority_class_name
-   */
-  readonly podPriorityClassName?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#pod_role_label
-   */
-  readonly podRoleLabel?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#pod_service_account_definition
-   */
-  readonly podServiceAccountDefinition?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#pod_service_account_name
-   */
-  readonly podServiceAccountName?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#pod_service_account_role_binding_definition
-   */
-  readonly podServiceAccountRoleBindingDefinition?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#pod_terminate_grace_period
-   */
-  readonly podTerminateGracePeriod?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#secret_name_template
-   */
-  readonly secretNameTemplate?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#share_pgsocket_with_sidecars
-   */
-  readonly sharePgsocketWithSidecars?: boolean;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#spilo_allow_privilege_escalation
-   */
-  readonly spiloAllowPrivilegeEscalation?: boolean;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#spilo_runasuser
-   */
-  readonly spiloRunasuser?: number;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#spilo_runasgroup
-   */
-  readonly spiloRunasgroup?: number;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#spilo_fsgroup
-   */
-  readonly spiloFsgroup?: number;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#spilo_privileged
-   */
-  readonly spiloPrivileged?: boolean;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#storage_resize_mode
-   */
-  readonly storageResizeMode?: OperatorConfigurationConfigurationKubernetesStorageResizeMode;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#toleration
-   */
-  readonly toleration?: { [key: string]: string };
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetes#watched_namespace
-   */
-  readonly watchedNamespace?: string;
-
-}
-
-/**
- * Converts an object of type 'OperatorConfigurationConfigurationKubernetes' to JSON representation.
- */
-/* eslint-disable max-len, quote-props */
-export function toJson_OperatorConfigurationConfigurationKubernetes(obj: OperatorConfigurationConfigurationKubernetes | undefined): Record<string, any> | undefined {
-  if (obj === undefined) { return undefined; }
-  const result = {
-    'additional_pod_capabilities': obj.additionalPodCapabilities?.map(y => y),
-    'cluster_domain': obj.clusterDomain,
-    'cluster_labels': ((obj.clusterLabels) === undefined) ? undefined : (Object.entries(obj.clusterLabels).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {})),
-    'cluster_name_label': obj.clusterNameLabel,
-    'custom_pod_annotations': ((obj.customPodAnnotations) === undefined) ? undefined : (Object.entries(obj.customPodAnnotations).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {})),
-    'delete_annotation_date_key': obj.deleteAnnotationDateKey,
-    'delete_annotation_name_key': obj.deleteAnnotationNameKey,
-    'downscaler_annotations': obj.downscalerAnnotations?.map(y => y),
-    'enable_cross_namespace_secret': obj.enableCrossNamespaceSecret,
-    'enable_finalizers': obj.enableFinalizers,
-    'enable_init_containers': obj.enableInitContainers,
-    'enable_owner_references': obj.enableOwnerReferences,
-    'enable_persistent_volume_claim_deletion': obj.enablePersistentVolumeClaimDeletion,
-    'enable_pod_antiaffinity': obj.enablePodAntiaffinity,
-    'enable_pod_disruption_budget': obj.enablePodDisruptionBudget,
-    'enable_readiness_probe': obj.enableReadinessProbe,
-    'enable_secrets_deletion': obj.enableSecretsDeletion,
-    'enable_sidecars': obj.enableSidecars,
-    'ignored_annotations': obj.ignoredAnnotations?.map(y => y),
-    'infrastructure_roles_secret_name': obj.infrastructureRolesSecretName,
-    'infrastructure_roles_secrets': obj.infrastructureRolesSecrets?.map(y => toJson_OperatorConfigurationConfigurationKubernetesInfrastructureRolesSecrets(y)),
-    'inherited_annotations': obj.inheritedAnnotations?.map(y => y),
-    'inherited_labels': obj.inheritedLabels?.map(y => y),
-    'master_pod_move_timeout': obj.masterPodMoveTimeout,
-    'node_readiness_label': ((obj.nodeReadinessLabel) === undefined) ? undefined : (Object.entries(obj.nodeReadinessLabel).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {})),
-    'node_readiness_label_merge': obj.nodeReadinessLabelMerge,
-    'oauth_token_secret_name': obj.oauthTokenSecretName,
-    'pdb_master_label_selector': obj.pdbMasterLabelSelector,
-    'pdb_name_format': obj.pdbNameFormat,
-    'persistent_volume_claim_retention_policy': toJson_OperatorConfigurationConfigurationKubernetesPersistentVolumeClaimRetentionPolicy(obj.persistentVolumeClaimRetentionPolicy),
-    'pod_antiaffinity_preferred_during_scheduling': obj.podAntiaffinityPreferredDuringScheduling,
-    'pod_antiaffinity_topology_key': obj.podAntiaffinityTopologyKey,
-    'pod_environment_configmap': obj.podEnvironmentConfigmap,
-    'pod_environment_secret': obj.podEnvironmentSecret,
-    'pod_management_policy': obj.podManagementPolicy,
-    'pod_priority_class_name': obj.podPriorityClassName,
-    'pod_role_label': obj.podRoleLabel,
-    'pod_service_account_definition': obj.podServiceAccountDefinition,
-    'pod_service_account_name': obj.podServiceAccountName,
-    'pod_service_account_role_binding_definition': obj.podServiceAccountRoleBindingDefinition,
-    'pod_terminate_grace_period': obj.podTerminateGracePeriod,
-    'secret_name_template': obj.secretNameTemplate,
-    'share_pgsocket_with_sidecars': obj.sharePgsocketWithSidecars,
-    'spilo_allow_privilege_escalation': obj.spiloAllowPrivilegeEscalation,
-    'spilo_runasuser': obj.spiloRunasuser,
-    'spilo_runasgroup': obj.spiloRunasgroup,
-    'spilo_fsgroup': obj.spiloFsgroup,
-    'spilo_privileged': obj.spiloPrivileged,
-    'storage_resize_mode': obj.storageResizeMode,
-    'toleration': ((obj.toleration) === undefined) ? undefined : (Object.entries(obj.toleration).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {})),
-    'watched_namespace': obj.watchedNamespace,
-  };
-  // filter undefined values
-  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
-}
-/* eslint-enable max-len, quote-props */
-
-/**
- * @schema OperatorConfigurationConfigurationPostgresPodResources
- */
-export interface OperatorConfigurationConfigurationPostgresPodResources {
-  /**
-   * @schema OperatorConfigurationConfigurationPostgresPodResources#default_cpu_limit
-   */
-  readonly defaultCpuLimit?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationPostgresPodResources#default_cpu_request
-   */
-  readonly defaultCpuRequest?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationPostgresPodResources#default_memory_limit
-   */
-  readonly defaultMemoryLimit?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationPostgresPodResources#default_memory_request
-   */
-  readonly defaultMemoryRequest?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationPostgresPodResources#max_cpu_request
-   */
-  readonly maxCpuRequest?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationPostgresPodResources#max_memory_request
-   */
-  readonly maxMemoryRequest?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationPostgresPodResources#min_cpu_limit
-   */
-  readonly minCpuLimit?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationPostgresPodResources#min_memory_limit
-   */
-  readonly minMemoryLimit?: string;
-
-}
-
-/**
- * Converts an object of type 'OperatorConfigurationConfigurationPostgresPodResources' to JSON representation.
- */
-/* eslint-disable max-len, quote-props */
-export function toJson_OperatorConfigurationConfigurationPostgresPodResources(obj: OperatorConfigurationConfigurationPostgresPodResources | undefined): Record<string, any> | undefined {
-  if (obj === undefined) { return undefined; }
-  const result = {
-    'default_cpu_limit': obj.defaultCpuLimit,
-    'default_cpu_request': obj.defaultCpuRequest,
-    'default_memory_limit': obj.defaultMemoryLimit,
-    'default_memory_request': obj.defaultMemoryRequest,
-    'max_cpu_request': obj.maxCpuRequest,
-    'max_memory_request': obj.maxMemoryRequest,
-    'min_cpu_limit': obj.minCpuLimit,
-    'min_memory_limit': obj.minMemoryLimit,
-  };
-  // filter undefined values
-  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
-}
-/* eslint-enable max-len, quote-props */
-
-/**
- * @schema OperatorConfigurationConfigurationTimeouts
- */
-export interface OperatorConfigurationConfigurationTimeouts {
-  /**
-   * @schema OperatorConfigurationConfigurationTimeouts#patroni_api_check_interval
-   */
-  readonly patroniApiCheckInterval?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationTimeouts#patroni_api_check_timeout
-   */
-  readonly patroniApiCheckTimeout?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationTimeouts#pod_label_wait_timeout
-   */
-  readonly podLabelWaitTimeout?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationTimeouts#pod_deletion_wait_timeout
-   */
-  readonly podDeletionWaitTimeout?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationTimeouts#ready_wait_interval
-   */
-  readonly readyWaitInterval?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationTimeouts#ready_wait_timeout
-   */
-  readonly readyWaitTimeout?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationTimeouts#resource_check_interval
-   */
-  readonly resourceCheckInterval?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationTimeouts#resource_check_timeout
-   */
-  readonly resourceCheckTimeout?: string;
-
-}
-
-/**
- * Converts an object of type 'OperatorConfigurationConfigurationTimeouts' to JSON representation.
- */
-/* eslint-disable max-len, quote-props */
-export function toJson_OperatorConfigurationConfigurationTimeouts(obj: OperatorConfigurationConfigurationTimeouts | undefined): Record<string, any> | undefined {
-  if (obj === undefined) { return undefined; }
-  const result = {
-    'patroni_api_check_interval': obj.patroniApiCheckInterval,
-    'patroni_api_check_timeout': obj.patroniApiCheckTimeout,
-    'pod_label_wait_timeout': obj.podLabelWaitTimeout,
-    'pod_deletion_wait_timeout': obj.podDeletionWaitTimeout,
-    'ready_wait_interval': obj.readyWaitInterval,
-    'ready_wait_timeout': obj.readyWaitTimeout,
-    'resource_check_interval': obj.resourceCheckInterval,
-    'resource_check_timeout': obj.resourceCheckTimeout,
-  };
-  // filter undefined values
-  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
-}
-/* eslint-enable max-len, quote-props */
-
-/**
- * @schema OperatorConfigurationConfigurationLoadBalancer
- */
-export interface OperatorConfigurationConfigurationLoadBalancer {
-  /**
-   * @schema OperatorConfigurationConfigurationLoadBalancer#custom_service_annotations
-   */
-  readonly customServiceAnnotations?: { [key: string]: string };
-
-  /**
-   * @schema OperatorConfigurationConfigurationLoadBalancer#db_hosted_zone
-   */
-  readonly dbHostedZone?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationLoadBalancer#enable_master_load_balancer
+   * @schema PostgresqlSpec#enableMasterLoadBalancer
    */
   readonly enableMasterLoadBalancer?: boolean;
 
   /**
-   * @schema OperatorConfigurationConfigurationLoadBalancer#enable_master_pooler_load_balancer
+   * @schema PostgresqlSpec#enableMasterPoolerLoadBalancer
    */
   readonly enableMasterPoolerLoadBalancer?: boolean;
 
   /**
-   * @schema OperatorConfigurationConfigurationLoadBalancer#enable_replica_load_balancer
+   * @schema PostgresqlSpec#enableReplicaLoadBalancer
    */
   readonly enableReplicaLoadBalancer?: boolean;
 
   /**
-   * @schema OperatorConfigurationConfigurationLoadBalancer#enable_replica_pooler_load_balancer
+   * @schema PostgresqlSpec#enableReplicaPoolerLoadBalancer
    */
   readonly enableReplicaPoolerLoadBalancer?: boolean;
 
   /**
-   * @schema OperatorConfigurationConfigurationLoadBalancer#external_traffic_policy
+   * @schema PostgresqlSpec#enableShmVolume
    */
-  readonly externalTrafficPolicy?: OperatorConfigurationConfigurationLoadBalancerExternalTrafficPolicy;
+  readonly enableShmVolume?: boolean;
 
   /**
-   * @schema OperatorConfigurationConfigurationLoadBalancer#master_dns_name_format
+   * @schema PostgresqlSpec#env
    */
-  readonly masterDnsNameFormat?: string;
+  readonly env?: any[];
 
   /**
-   * @schema OperatorConfigurationConfigurationLoadBalancer#master_legacy_dns_name_format
+   * deprecated
+   *
+   * @schema PostgresqlSpec#init_containers
    */
-  readonly masterLegacyDnsNameFormat?: string;
+  readonly initContainers?: any[];
 
   /**
-   * @schema OperatorConfigurationConfigurationLoadBalancer#replica_dns_name_format
+   * @schema PostgresqlSpec#logicalBackupRetention
    */
-  readonly replicaDnsNameFormat?: string;
+  readonly logicalBackupRetention?: string;
 
   /**
-   * @schema OperatorConfigurationConfigurationLoadBalancer#replica_legacy_dns_name_format
-   */
-  readonly replicaLegacyDnsNameFormat?: string;
-
-}
-
-/**
- * Converts an object of type 'OperatorConfigurationConfigurationLoadBalancer' to JSON representation.
- */
-/* eslint-disable max-len, quote-props */
-export function toJson_OperatorConfigurationConfigurationLoadBalancer(obj: OperatorConfigurationConfigurationLoadBalancer | undefined): Record<string, any> | undefined {
-  if (obj === undefined) { return undefined; }
-  const result = {
-    'custom_service_annotations': ((obj.customServiceAnnotations) === undefined) ? undefined : (Object.entries(obj.customServiceAnnotations).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {})),
-    'db_hosted_zone': obj.dbHostedZone,
-    'enable_master_load_balancer': obj.enableMasterLoadBalancer,
-    'enable_master_pooler_load_balancer': obj.enableMasterPoolerLoadBalancer,
-    'enable_replica_load_balancer': obj.enableReplicaLoadBalancer,
-    'enable_replica_pooler_load_balancer': obj.enableReplicaPoolerLoadBalancer,
-    'external_traffic_policy': obj.externalTrafficPolicy,
-    'master_dns_name_format': obj.masterDnsNameFormat,
-    'master_legacy_dns_name_format': obj.masterLegacyDnsNameFormat,
-    'replica_dns_name_format': obj.replicaDnsNameFormat,
-    'replica_legacy_dns_name_format': obj.replicaLegacyDnsNameFormat,
-  };
-  // filter undefined values
-  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
-}
-/* eslint-enable max-len, quote-props */
-
-/**
- * @schema OperatorConfigurationConfigurationAwsOrGcp
- */
-export interface OperatorConfigurationConfigurationAwsOrGcp {
-  /**
-   * @schema OperatorConfigurationConfigurationAwsOrGcp#additional_secret_mount
-   */
-  readonly additionalSecretMount?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationAwsOrGcp#additional_secret_mount_path
-   */
-  readonly additionalSecretMountPath?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationAwsOrGcp#aws_region
-   */
-  readonly awsRegion?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationAwsOrGcp#enable_ebs_gp3_migration
-   */
-  readonly enableEbsGp3Migration?: boolean;
-
-  /**
-   * @schema OperatorConfigurationConfigurationAwsOrGcp#enable_ebs_gp3_migration_max_size
-   */
-  readonly enableEbsGp3MigrationMaxSize?: number;
-
-  /**
-   * @schema OperatorConfigurationConfigurationAwsOrGcp#gcp_credentials
-   */
-  readonly gcpCredentials?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationAwsOrGcp#kube_iam_role
-   */
-  readonly kubeIamRole?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationAwsOrGcp#log_s3_bucket
-   */
-  readonly logS3Bucket?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationAwsOrGcp#wal_az_storage_account
-   */
-  readonly walAzStorageAccount?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationAwsOrGcp#wal_gs_bucket
-   */
-  readonly walGsBucket?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationAwsOrGcp#wal_s3_bucket
-   */
-  readonly walS3Bucket?: string;
-
-}
-
-/**
- * Converts an object of type 'OperatorConfigurationConfigurationAwsOrGcp' to JSON representation.
- */
-/* eslint-disable max-len, quote-props */
-export function toJson_OperatorConfigurationConfigurationAwsOrGcp(obj: OperatorConfigurationConfigurationAwsOrGcp | undefined): Record<string, any> | undefined {
-  if (obj === undefined) { return undefined; }
-  const result = {
-    'additional_secret_mount': obj.additionalSecretMount,
-    'additional_secret_mount_path': obj.additionalSecretMountPath,
-    'aws_region': obj.awsRegion,
-    'enable_ebs_gp3_migration': obj.enableEbsGp3Migration,
-    'enable_ebs_gp3_migration_max_size': obj.enableEbsGp3MigrationMaxSize,
-    'gcp_credentials': obj.gcpCredentials,
-    'kube_iam_role': obj.kubeIamRole,
-    'log_s3_bucket': obj.logS3Bucket,
-    'wal_az_storage_account': obj.walAzStorageAccount,
-    'wal_gs_bucket': obj.walGsBucket,
-    'wal_s3_bucket': obj.walS3Bucket,
-  };
-  // filter undefined values
-  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
-}
-/* eslint-enable max-len, quote-props */
-
-/**
- * @schema OperatorConfigurationConfigurationLogicalBackup
- */
-export interface OperatorConfigurationConfigurationLogicalBackup {
-  /**
-   * @schema OperatorConfigurationConfigurationLogicalBackup#logical_backup_azure_storage_account_name
-   */
-  readonly logicalBackupAzureStorageAccountName?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationLogicalBackup#logical_backup_azure_storage_container
-   */
-  readonly logicalBackupAzureStorageContainer?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationLogicalBackup#logical_backup_azure_storage_account_key
-   */
-  readonly logicalBackupAzureStorageAccountKey?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationLogicalBackup#logical_backup_cpu_limit
-   */
-  readonly logicalBackupCpuLimit?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationLogicalBackup#logical_backup_cpu_request
-   */
-  readonly logicalBackupCpuRequest?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationLogicalBackup#logical_backup_docker_image
-   */
-  readonly logicalBackupDockerImage?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationLogicalBackup#logical_backup_google_application_credentials
-   */
-  readonly logicalBackupGoogleApplicationCredentials?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationLogicalBackup#logical_backup_job_prefix
-   */
-  readonly logicalBackupJobPrefix?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationLogicalBackup#logical_backup_memory_limit
-   */
-  readonly logicalBackupMemoryLimit?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationLogicalBackup#logical_backup_memory_request
-   */
-  readonly logicalBackupMemoryRequest?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationLogicalBackup#logical_backup_provider
-   */
-  readonly logicalBackupProvider?: OperatorConfigurationConfigurationLogicalBackupLogicalBackupProvider;
-
-  /**
-   * @schema OperatorConfigurationConfigurationLogicalBackup#logical_backup_s3_access_key_id
-   */
-  readonly logicalBackupS3AccessKeyId?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationLogicalBackup#logical_backup_s3_bucket
-   */
-  readonly logicalBackupS3Bucket?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationLogicalBackup#logical_backup_s3_bucket_prefix
-   */
-  readonly logicalBackupS3BucketPrefix?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationLogicalBackup#logical_backup_s3_endpoint
-   */
-  readonly logicalBackupS3Endpoint?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationLogicalBackup#logical_backup_s3_region
-   */
-  readonly logicalBackupS3Region?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationLogicalBackup#logical_backup_s3_secret_access_key
-   */
-  readonly logicalBackupS3SecretAccessKey?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationLogicalBackup#logical_backup_s3_sse
-   */
-  readonly logicalBackupS3Sse?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationLogicalBackup#logical_backup_s3_retention_time
-   */
-  readonly logicalBackupS3RetentionTime?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationLogicalBackup#logical_backup_schedule
+   * @schema PostgresqlSpec#logicalBackupSchedule
    */
   readonly logicalBackupSchedule?: string;
 
   /**
-   * @schema OperatorConfigurationConfigurationLogicalBackup#logical_backup_cronjob_environment_secret
+   * @schema PostgresqlSpec#maintenanceWindows
    */
-  readonly logicalBackupCronjobEnvironmentSecret?: string;
+  readonly maintenanceWindows?: string[];
+
+  /**
+   * @schema PostgresqlSpec#masterServiceAnnotations
+   */
+  readonly masterServiceAnnotations?: { [key: string]: string };
+
+  /**
+   * @schema PostgresqlSpec#nodeAffinity
+   */
+  readonly nodeAffinity?: PostgresqlSpecNodeAffinity;
+
+  /**
+   * @schema PostgresqlSpec#numberOfInstances
+   */
+  readonly numberOfInstances: number;
+
+  /**
+   * @schema PostgresqlSpec#patroni
+   */
+  readonly patroni?: PostgresqlSpecPatroni;
+
+  /**
+   * @schema PostgresqlSpec#podAnnotations
+   */
+  readonly podAnnotations?: { [key: string]: string };
+
+  /**
+   * deprecated
+   *
+   * @schema PostgresqlSpec#pod_priority_class_name
+   */
+  readonly podPriorityClassName?: string;
+
+  /**
+   * @schema PostgresqlSpec#postgresql
+   */
+  readonly postgresql: PostgresqlSpecPostgresql;
+
+  /**
+   * @schema PostgresqlSpec#preparedDatabases
+   */
+  readonly preparedDatabases?: { [key: string]: PostgresqlSpecPreparedDatabases };
+
+  /**
+   * deprecated
+   *
+   * @schema PostgresqlSpec#replicaLoadBalancer
+   */
+  readonly replicaLoadBalancer?: boolean;
+
+  /**
+   * @schema PostgresqlSpec#replicaServiceAnnotations
+   */
+  readonly replicaServiceAnnotations?: { [key: string]: string };
+
+  /**
+   * @schema PostgresqlSpec#resources
+   */
+  readonly resources?: PostgresqlSpecResources;
+
+  /**
+   * @schema PostgresqlSpec#schedulerName
+   */
+  readonly schedulerName?: string;
+
+  /**
+   * @schema PostgresqlSpec#serviceAnnotations
+   */
+  readonly serviceAnnotations?: { [key: string]: string };
+
+  /**
+   * @schema PostgresqlSpec#sidecars
+   */
+  readonly sidecars?: any[];
+
+  /**
+   * @schema PostgresqlSpec#spiloRunAsUser
+   */
+  readonly spiloRunAsUser?: number;
+
+  /**
+   * @schema PostgresqlSpec#spiloRunAsGroup
+   */
+  readonly spiloRunAsGroup?: number;
+
+  /**
+   * @schema PostgresqlSpec#spiloFSGroup
+   */
+  readonly spiloFsGroup?: number;
+
+  /**
+   * @schema PostgresqlSpec#standby
+   */
+  readonly standby?: PostgresqlSpecStandby;
+
+  /**
+   * @schema PostgresqlSpec#streams
+   */
+  readonly streams?: PostgresqlSpecStreams[];
+
+  /**
+   * @schema PostgresqlSpec#teamId
+   */
+  readonly teamId: string;
+
+  /**
+   * @schema PostgresqlSpec#tls
+   */
+  readonly tls?: PostgresqlSpecTls;
+
+  /**
+   * @schema PostgresqlSpec#tolerations
+   */
+  readonly tolerations?: PostgresqlSpecTolerations[];
+
+  /**
+   * deprecated
+   *
+   * @schema PostgresqlSpec#useLoadBalancer
+   */
+  readonly useLoadBalancer?: boolean;
+
+  /**
+   * @schema PostgresqlSpec#users
+   */
+  readonly users?: { [key: string]: PostgresqlSpecUsers[] };
+
+  /**
+   * @schema PostgresqlSpec#usersIgnoringSecretRotation
+   */
+  readonly usersIgnoringSecretRotation?: string[];
+
+  /**
+   * @schema PostgresqlSpec#usersWithInPlaceSecretRotation
+   */
+  readonly usersWithInPlaceSecretRotation?: string[];
+
+  /**
+   * @schema PostgresqlSpec#usersWithSecretRotation
+   */
+  readonly usersWithSecretRotation?: string[];
+
+  /**
+   * @schema PostgresqlSpec#volume
+   */
+  readonly volume: PostgresqlSpecVolume;
 
 }
 
 /**
- * Converts an object of type 'OperatorConfigurationConfigurationLogicalBackup' to JSON representation.
+ * Converts an object of type 'PostgresqlSpec' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_OperatorConfigurationConfigurationLogicalBackup(obj: OperatorConfigurationConfigurationLogicalBackup | undefined): Record<string, any> | undefined {
+export function toJson_PostgresqlSpec(obj: PostgresqlSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
-    'logical_backup_azure_storage_account_name': obj.logicalBackupAzureStorageAccountName,
-    'logical_backup_azure_storage_container': obj.logicalBackupAzureStorageContainer,
-    'logical_backup_azure_storage_account_key': obj.logicalBackupAzureStorageAccountKey,
-    'logical_backup_cpu_limit': obj.logicalBackupCpuLimit,
-    'logical_backup_cpu_request': obj.logicalBackupCpuRequest,
-    'logical_backup_docker_image': obj.logicalBackupDockerImage,
-    'logical_backup_google_application_credentials': obj.logicalBackupGoogleApplicationCredentials,
-    'logical_backup_job_prefix': obj.logicalBackupJobPrefix,
-    'logical_backup_memory_limit': obj.logicalBackupMemoryLimit,
-    'logical_backup_memory_request': obj.logicalBackupMemoryRequest,
-    'logical_backup_provider': obj.logicalBackupProvider,
-    'logical_backup_s3_access_key_id': obj.logicalBackupS3AccessKeyId,
-    'logical_backup_s3_bucket': obj.logicalBackupS3Bucket,
-    'logical_backup_s3_bucket_prefix': obj.logicalBackupS3BucketPrefix,
-    'logical_backup_s3_endpoint': obj.logicalBackupS3Endpoint,
-    'logical_backup_s3_region': obj.logicalBackupS3Region,
-    'logical_backup_s3_secret_access_key': obj.logicalBackupS3SecretAccessKey,
-    'logical_backup_s3_sse': obj.logicalBackupS3Sse,
-    'logical_backup_s3_retention_time': obj.logicalBackupS3RetentionTime,
-    'logical_backup_schedule': obj.logicalBackupSchedule,
-    'logical_backup_cronjob_environment_secret': obj.logicalBackupCronjobEnvironmentSecret,
+    'additionalVolumes': obj.additionalVolumes?.map(y => toJson_PostgresqlSpecAdditionalVolumes(y)),
+    'allowedSourceRanges': obj.allowedSourceRanges?.map(y => y),
+    'clone': toJson_PostgresqlSpecClone(obj.clone),
+    'connectionPooler': toJson_PostgresqlSpecConnectionPooler(obj.connectionPooler),
+    'databases': ((obj.databases) === undefined) ? undefined : (Object.entries(obj.databases).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {})),
+    'dockerImage': obj.dockerImage,
+    'enableConnectionPooler': obj.enableConnectionPooler,
+    'enableReplicaConnectionPooler': obj.enableReplicaConnectionPooler,
+    'enableLogicalBackup': obj.enableLogicalBackup,
+    'enableMasterLoadBalancer': obj.enableMasterLoadBalancer,
+    'enableMasterPoolerLoadBalancer': obj.enableMasterPoolerLoadBalancer,
+    'enableReplicaLoadBalancer': obj.enableReplicaLoadBalancer,
+    'enableReplicaPoolerLoadBalancer': obj.enableReplicaPoolerLoadBalancer,
+    'enableShmVolume': obj.enableShmVolume,
+    'env': obj.env?.map(y => y),
+    'init_containers': obj.initContainers?.map(y => y),
+    'logicalBackupRetention': obj.logicalBackupRetention,
+    'logicalBackupSchedule': obj.logicalBackupSchedule,
+    'maintenanceWindows': obj.maintenanceWindows?.map(y => y),
+    'masterServiceAnnotations': ((obj.masterServiceAnnotations) === undefined) ? undefined : (Object.entries(obj.masterServiceAnnotations).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {})),
+    'nodeAffinity': toJson_PostgresqlSpecNodeAffinity(obj.nodeAffinity),
+    'numberOfInstances': obj.numberOfInstances,
+    'patroni': toJson_PostgresqlSpecPatroni(obj.patroni),
+    'podAnnotations': ((obj.podAnnotations) === undefined) ? undefined : (Object.entries(obj.podAnnotations).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {})),
+    'pod_priority_class_name': obj.podPriorityClassName,
+    'postgresql': toJson_PostgresqlSpecPostgresql(obj.postgresql),
+    'preparedDatabases': ((obj.preparedDatabases) === undefined) ? undefined : (Object.entries(obj.preparedDatabases).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: toJson_PostgresqlSpecPreparedDatabases(i[1]) }), {})),
+    'replicaLoadBalancer': obj.replicaLoadBalancer,
+    'replicaServiceAnnotations': ((obj.replicaServiceAnnotations) === undefined) ? undefined : (Object.entries(obj.replicaServiceAnnotations).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {})),
+    'resources': toJson_PostgresqlSpecResources(obj.resources),
+    'schedulerName': obj.schedulerName,
+    'serviceAnnotations': ((obj.serviceAnnotations) === undefined) ? undefined : (Object.entries(obj.serviceAnnotations).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {})),
+    'sidecars': obj.sidecars?.map(y => y),
+    'spiloRunAsUser': obj.spiloRunAsUser,
+    'spiloRunAsGroup': obj.spiloRunAsGroup,
+    'spiloFSGroup': obj.spiloFsGroup,
+    'standby': toJson_PostgresqlSpecStandby(obj.standby),
+    'streams': obj.streams?.map(y => toJson_PostgresqlSpecStreams(y)),
+    'teamId': obj.teamId,
+    'tls': toJson_PostgresqlSpecTls(obj.tls),
+    'tolerations': obj.tolerations?.map(y => toJson_PostgresqlSpecTolerations(y)),
+    'useLoadBalancer': obj.useLoadBalancer,
+    'users': ((obj.users) === undefined) ? undefined : (Object.entries(obj.users).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1]?.map(y => y) }), {})),
+    'usersIgnoringSecretRotation': obj.usersIgnoringSecretRotation?.map(y => y),
+    'usersWithInPlaceSecretRotation': obj.usersWithInPlaceSecretRotation?.map(y => y),
+    'usersWithSecretRotation': obj.usersWithSecretRotation?.map(y => y),
+    'volume': toJson_PostgresqlSpecVolume(obj.volume),
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
@@ -1190,30 +398,54 @@ export function toJson_OperatorConfigurationConfigurationLogicalBackup(obj: Oper
 /* eslint-enable max-len, quote-props */
 
 /**
- * @schema OperatorConfigurationConfigurationDebug
+ * @schema PostgresqlSpecAdditionalVolumes
  */
-export interface OperatorConfigurationConfigurationDebug {
+export interface PostgresqlSpecAdditionalVolumes {
   /**
-   * @schema OperatorConfigurationConfigurationDebug#debug_logging
+   * @schema PostgresqlSpecAdditionalVolumes#isSubPathExpr
    */
-  readonly debugLogging?: boolean;
+  readonly isSubPathExpr?: boolean;
 
   /**
-   * @schema OperatorConfigurationConfigurationDebug#enable_database_access
+   * @schema PostgresqlSpecAdditionalVolumes#name
    */
-  readonly enableDatabaseAccess?: boolean;
+  readonly name: string;
+
+  /**
+   * @schema PostgresqlSpecAdditionalVolumes#mountPath
+   */
+  readonly mountPath: string;
+
+  /**
+   * @schema PostgresqlSpecAdditionalVolumes#subPath
+   */
+  readonly subPath?: string;
+
+  /**
+   * @schema PostgresqlSpecAdditionalVolumes#targetContainers
+   */
+  readonly targetContainers?: string[];
+
+  /**
+   * @schema PostgresqlSpecAdditionalVolumes#volumeSource
+   */
+  readonly volumeSource: any;
 
 }
 
 /**
- * Converts an object of type 'OperatorConfigurationConfigurationDebug' to JSON representation.
+ * Converts an object of type 'PostgresqlSpecAdditionalVolumes' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_OperatorConfigurationConfigurationDebug(obj: OperatorConfigurationConfigurationDebug | undefined): Record<string, any> | undefined {
+export function toJson_PostgresqlSpecAdditionalVolumes(obj: PostgresqlSpecAdditionalVolumes | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
-    'debug_logging': obj.debugLogging,
-    'enable_database_access': obj.enableDatabaseAccess,
+    'isSubPathExpr': obj.isSubPathExpr,
+    'name': obj.name,
+    'mountPath': obj.mountPath,
+    'subPath': obj.subPath,
+    'targetContainers': obj.targetContainers?.map(y => y),
+    'volumeSource': obj.volumeSource,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
@@ -1221,102 +453,66 @@ export function toJson_OperatorConfigurationConfigurationDebug(obj: OperatorConf
 /* eslint-enable max-len, quote-props */
 
 /**
- * @schema OperatorConfigurationConfigurationTeamsApi
+ * @schema PostgresqlSpecClone
  */
-export interface OperatorConfigurationConfigurationTeamsApi {
+export interface PostgresqlSpecClone {
   /**
-   * @schema OperatorConfigurationConfigurationTeamsApi#enable_admin_role_for_users
+   * @schema PostgresqlSpecClone#cluster
    */
-  readonly enableAdminRoleForUsers?: boolean;
+  readonly cluster: string;
 
   /**
-   * @schema OperatorConfigurationConfigurationTeamsApi#enable_postgres_team_crd
+   * @schema PostgresqlSpecClone#s3_endpoint
    */
-  readonly enablePostgresTeamCrd?: boolean;
+  readonly s3Endpoint?: string;
 
   /**
-   * @schema OperatorConfigurationConfigurationTeamsApi#enable_postgres_team_crd_superusers
+   * @schema PostgresqlSpecClone#s3_access_key_id
    */
-  readonly enablePostgresTeamCrdSuperusers?: boolean;
+  readonly s3AccessKeyId?: string;
 
   /**
-   * @schema OperatorConfigurationConfigurationTeamsApi#enable_team_member_deprecation
+   * @schema PostgresqlSpecClone#s3_secret_access_key
    */
-  readonly enableTeamMemberDeprecation?: boolean;
+  readonly s3SecretAccessKey?: string;
 
   /**
-   * @schema OperatorConfigurationConfigurationTeamsApi#enable_team_superuser
+   * @schema PostgresqlSpecClone#s3_force_path_style
    */
-  readonly enableTeamSuperuser?: boolean;
+  readonly s3ForcePathStyle?: boolean;
 
   /**
-   * @schema OperatorConfigurationConfigurationTeamsApi#enable_teams_api
+   * @schema PostgresqlSpecClone#s3_wal_path
    */
-  readonly enableTeamsApi?: boolean;
+  readonly s3WalPath?: string;
 
   /**
-   * @schema OperatorConfigurationConfigurationTeamsApi#pam_configuration
+   * @schema PostgresqlSpecClone#timestamp
    */
-  readonly pamConfiguration?: string;
+  readonly timestamp?: string;
 
   /**
-   * @schema OperatorConfigurationConfigurationTeamsApi#pam_role_name
+   * @schema PostgresqlSpecClone#uid
    */
-  readonly pamRoleName?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationTeamsApi#postgres_superuser_teams
-   */
-  readonly postgresSuperuserTeams?: string[];
-
-  /**
-   * @schema OperatorConfigurationConfigurationTeamsApi#protected_role_names
-   */
-  readonly protectedRoleNames?: string[];
-
-  /**
-   * @schema OperatorConfigurationConfigurationTeamsApi#role_deletion_suffix
-   */
-  readonly roleDeletionSuffix?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationTeamsApi#team_admin_role
-   */
-  readonly teamAdminRole?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationTeamsApi#team_api_role_configuration
-   */
-  readonly teamApiRoleConfiguration?: { [key: string]: string };
-
-  /**
-   * @schema OperatorConfigurationConfigurationTeamsApi#teams_api_url
-   */
-  readonly teamsApiUrl?: string;
+  readonly uid?: string;
 
 }
 
 /**
- * Converts an object of type 'OperatorConfigurationConfigurationTeamsApi' to JSON representation.
+ * Converts an object of type 'PostgresqlSpecClone' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_OperatorConfigurationConfigurationTeamsApi(obj: OperatorConfigurationConfigurationTeamsApi | undefined): Record<string, any> | undefined {
+export function toJson_PostgresqlSpecClone(obj: PostgresqlSpecClone | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
-    'enable_admin_role_for_users': obj.enableAdminRoleForUsers,
-    'enable_postgres_team_crd': obj.enablePostgresTeamCrd,
-    'enable_postgres_team_crd_superusers': obj.enablePostgresTeamCrdSuperusers,
-    'enable_team_member_deprecation': obj.enableTeamMemberDeprecation,
-    'enable_team_superuser': obj.enableTeamSuperuser,
-    'enable_teams_api': obj.enableTeamsApi,
-    'pam_configuration': obj.pamConfiguration,
-    'pam_role_name': obj.pamRoleName,
-    'postgres_superuser_teams': obj.postgresSuperuserTeams?.map(y => y),
-    'protected_role_names': obj.protectedRoleNames?.map(y => y),
-    'role_deletion_suffix': obj.roleDeletionSuffix,
-    'team_admin_role': obj.teamAdminRole,
-    'team_api_role_configuration': ((obj.teamApiRoleConfiguration) === undefined) ? undefined : (Object.entries(obj.teamApiRoleConfiguration).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {})),
-    'teams_api_url': obj.teamsApiUrl,
+    'cluster': obj.cluster,
+    's3_endpoint': obj.s3Endpoint,
+    's3_access_key_id': obj.s3AccessKeyId,
+    's3_secret_access_key': obj.s3SecretAccessKey,
+    's3_force_path_style': obj.s3ForcePathStyle,
+    's3_wal_path': obj.s3WalPath,
+    'timestamp': obj.timestamp,
+    'uid': obj.uid,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
@@ -1324,36 +520,60 @@ export function toJson_OperatorConfigurationConfigurationTeamsApi(obj: OperatorC
 /* eslint-enable max-len, quote-props */
 
 /**
- * @schema OperatorConfigurationConfigurationLoggingRestApi
+ * @schema PostgresqlSpecConnectionPooler
  */
-export interface OperatorConfigurationConfigurationLoggingRestApi {
+export interface PostgresqlSpecConnectionPooler {
   /**
-   * @schema OperatorConfigurationConfigurationLoggingRestApi#api_port
+   * @schema PostgresqlSpecConnectionPooler#dockerImage
    */
-  readonly apiPort?: number;
+  readonly dockerImage?: string;
 
   /**
-   * @schema OperatorConfigurationConfigurationLoggingRestApi#cluster_history_entries
+   * @schema PostgresqlSpecConnectionPooler#maxDBConnections
    */
-  readonly clusterHistoryEntries?: number;
+  readonly maxDbConnections?: number;
 
   /**
-   * @schema OperatorConfigurationConfigurationLoggingRestApi#ring_log_lines
+   * @schema PostgresqlSpecConnectionPooler#mode
    */
-  readonly ringLogLines?: number;
+  readonly mode?: PostgresqlSpecConnectionPoolerMode;
+
+  /**
+   * @schema PostgresqlSpecConnectionPooler#numberOfInstances
+   */
+  readonly numberOfInstances?: number;
+
+  /**
+   * @schema PostgresqlSpecConnectionPooler#resources
+   */
+  readonly resources?: PostgresqlSpecConnectionPoolerResources;
+
+  /**
+   * @schema PostgresqlSpecConnectionPooler#schema
+   */
+  readonly schema?: string;
+
+  /**
+   * @schema PostgresqlSpecConnectionPooler#user
+   */
+  readonly user?: string;
 
 }
 
 /**
- * Converts an object of type 'OperatorConfigurationConfigurationLoggingRestApi' to JSON representation.
+ * Converts an object of type 'PostgresqlSpecConnectionPooler' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_OperatorConfigurationConfigurationLoggingRestApi(obj: OperatorConfigurationConfigurationLoggingRestApi | undefined): Record<string, any> | undefined {
+export function toJson_PostgresqlSpecConnectionPooler(obj: PostgresqlSpecConnectionPooler | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
-    'api_port': obj.apiPort,
-    'cluster_history_entries': obj.clusterHistoryEntries,
-    'ring_log_lines': obj.ringLogLines,
+    'dockerImage': obj.dockerImage,
+    'maxDBConnections': obj.maxDbConnections,
+    'mode': obj.mode,
+    'numberOfInstances': obj.numberOfInstances,
+    'resources': toJson_PostgresqlSpecConnectionPoolerResources(obj.resources),
+    'schema': obj.schema,
+    'user': obj.user,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
@@ -1361,60 +581,30 @@ export function toJson_OperatorConfigurationConfigurationLoggingRestApi(obj: Ope
 /* eslint-enable max-len, quote-props */
 
 /**
- * @schema OperatorConfigurationConfigurationScalyr
+ * @schema PostgresqlSpecNodeAffinity
  */
-export interface OperatorConfigurationConfigurationScalyr {
+export interface PostgresqlSpecNodeAffinity {
   /**
-   * @schema OperatorConfigurationConfigurationScalyr#scalyr_api_key
+   * @schema PostgresqlSpecNodeAffinity#preferredDuringSchedulingIgnoredDuringExecution
    */
-  readonly scalyrApiKey?: string;
+  readonly preferredDuringSchedulingIgnoredDuringExecution?: PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
 
   /**
-   * @schema OperatorConfigurationConfigurationScalyr#scalyr_cpu_limit
+   * @schema PostgresqlSpecNodeAffinity#requiredDuringSchedulingIgnoredDuringExecution
    */
-  readonly scalyrCpuLimit?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationScalyr#scalyr_cpu_request
-   */
-  readonly scalyrCpuRequest?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationScalyr#scalyr_image
-   */
-  readonly scalyrImage?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationScalyr#scalyr_memory_limit
-   */
-  readonly scalyrMemoryLimit?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationScalyr#scalyr_memory_request
-   */
-  readonly scalyrMemoryRequest?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationScalyr#scalyr_server_url
-   */
-  readonly scalyrServerUrl?: string;
+  readonly requiredDuringSchedulingIgnoredDuringExecution?: PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution;
 
 }
 
 /**
- * Converts an object of type 'OperatorConfigurationConfigurationScalyr' to JSON representation.
+ * Converts an object of type 'PostgresqlSpecNodeAffinity' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_OperatorConfigurationConfigurationScalyr(obj: OperatorConfigurationConfigurationScalyr | undefined): Record<string, any> | undefined {
+export function toJson_PostgresqlSpecNodeAffinity(obj: PostgresqlSpecNodeAffinity | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
-    'scalyr_api_key': obj.scalyrApiKey,
-    'scalyr_cpu_limit': obj.scalyrCpuLimit,
-    'scalyr_cpu_request': obj.scalyrCpuRequest,
-    'scalyr_image': obj.scalyrImage,
-    'scalyr_memory_limit': obj.scalyrMemoryLimit,
-    'scalyr_memory_request': obj.scalyrMemoryRequest,
-    'scalyr_server_url': obj.scalyrServerUrl,
+    'preferredDuringSchedulingIgnoredDuringExecution': obj.preferredDuringSchedulingIgnoredDuringExecution?.map(y => toJson_PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(y)),
+    'requiredDuringSchedulingIgnoredDuringExecution': toJson_PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(obj.requiredDuringSchedulingIgnoredDuringExecution),
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
@@ -1422,78 +612,84 @@ export function toJson_OperatorConfigurationConfigurationScalyr(obj: OperatorCon
 /* eslint-enable max-len, quote-props */
 
 /**
- * @schema OperatorConfigurationConfigurationConnectionPooler
+ * @schema PostgresqlSpecPatroni
  */
-export interface OperatorConfigurationConfigurationConnectionPooler {
+export interface PostgresqlSpecPatroni {
   /**
-   * @schema OperatorConfigurationConfigurationConnectionPooler#connection_pooler_schema
+   * @schema PostgresqlSpecPatroni#failsafe_mode
    */
-  readonly connectionPoolerSchema?: string;
+  readonly failsafeMode?: boolean;
 
   /**
-   * @schema OperatorConfigurationConfigurationConnectionPooler#connection_pooler_user
+   * @schema PostgresqlSpecPatroni#initdb
    */
-  readonly connectionPoolerUser?: string;
+  readonly initdb?: { [key: string]: string };
 
   /**
-   * @schema OperatorConfigurationConfigurationConnectionPooler#connection_pooler_image
+   * @schema PostgresqlSpecPatroni#loop_wait
    */
-  readonly connectionPoolerImage?: string;
+  readonly loopWait?: number;
 
   /**
-   * @schema OperatorConfigurationConfigurationConnectionPooler#connection_pooler_max_db_connections
+   * @schema PostgresqlSpecPatroni#maximum_lag_on_failover
    */
-  readonly connectionPoolerMaxDbConnections?: number;
+  readonly maximumLagOnFailover?: number;
 
   /**
-   * @schema OperatorConfigurationConfigurationConnectionPooler#connection_pooler_mode
+   * @schema PostgresqlSpecPatroni#pg_hba
    */
-  readonly connectionPoolerMode?: OperatorConfigurationConfigurationConnectionPoolerConnectionPoolerMode;
+  readonly pgHba?: string[];
 
   /**
-   * @schema OperatorConfigurationConfigurationConnectionPooler#connection_pooler_number_of_instances
+   * @schema PostgresqlSpecPatroni#retry_timeout
    */
-  readonly connectionPoolerNumberOfInstances?: number;
+  readonly retryTimeout?: number;
 
   /**
-   * @schema OperatorConfigurationConfigurationConnectionPooler#connection_pooler_default_cpu_limit
+   * @schema PostgresqlSpecPatroni#slots
    */
-  readonly connectionPoolerDefaultCpuLimit?: string;
+  readonly slots?: { [key: string]: { [key: string]: string } };
 
   /**
-   * @schema OperatorConfigurationConfigurationConnectionPooler#connection_pooler_default_cpu_request
+   * @schema PostgresqlSpecPatroni#synchronous_mode
    */
-  readonly connectionPoolerDefaultCpuRequest?: string;
+  readonly synchronousMode?: boolean;
 
   /**
-   * @schema OperatorConfigurationConfigurationConnectionPooler#connection_pooler_default_memory_limit
+   * @schema PostgresqlSpecPatroni#synchronous_mode_strict
    */
-  readonly connectionPoolerDefaultMemoryLimit?: string;
+  readonly synchronousModeStrict?: boolean;
 
   /**
-   * @schema OperatorConfigurationConfigurationConnectionPooler#connection_pooler_default_memory_request
+   * @schema PostgresqlSpecPatroni#synchronous_node_count
    */
-  readonly connectionPoolerDefaultMemoryRequest?: string;
+  readonly synchronousNodeCount?: number;
+
+  /**
+   * @schema PostgresqlSpecPatroni#ttl
+   */
+  readonly ttl?: number;
 
 }
 
 /**
- * Converts an object of type 'OperatorConfigurationConfigurationConnectionPooler' to JSON representation.
+ * Converts an object of type 'PostgresqlSpecPatroni' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_OperatorConfigurationConfigurationConnectionPooler(obj: OperatorConfigurationConfigurationConnectionPooler | undefined): Record<string, any> | undefined {
+export function toJson_PostgresqlSpecPatroni(obj: PostgresqlSpecPatroni | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
-    'connection_pooler_schema': obj.connectionPoolerSchema,
-    'connection_pooler_user': obj.connectionPoolerUser,
-    'connection_pooler_image': obj.connectionPoolerImage,
-    'connection_pooler_max_db_connections': obj.connectionPoolerMaxDbConnections,
-    'connection_pooler_mode': obj.connectionPoolerMode,
-    'connection_pooler_number_of_instances': obj.connectionPoolerNumberOfInstances,
-    'connection_pooler_default_cpu_limit': obj.connectionPoolerDefaultCpuLimit,
-    'connection_pooler_default_cpu_request': obj.connectionPoolerDefaultCpuRequest,
-    'connection_pooler_default_memory_limit': obj.connectionPoolerDefaultMemoryLimit,
-    'connection_pooler_default_memory_request': obj.connectionPoolerDefaultMemoryRequest,
+    'failsafe_mode': obj.failsafeMode,
+    'initdb': ((obj.initdb) === undefined) ? undefined : (Object.entries(obj.initdb).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {})),
+    'loop_wait': obj.loopWait,
+    'maximum_lag_on_failover': obj.maximumLagOnFailover,
+    'pg_hba': obj.pgHba?.map(y => y),
+    'retry_timeout': obj.retryTimeout,
+    'slots': ((obj.slots) === undefined) ? undefined : (Object.entries(obj.slots).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: ((i[1]) === undefined) ? undefined : (Object.entries(i[1]).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {})) }), {})),
+    'synchronous_mode': obj.synchronousMode,
+    'synchronous_mode_strict': obj.synchronousModeStrict,
+    'synchronous_node_count': obj.synchronousNodeCount,
+    'ttl': obj.ttl,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
@@ -1501,24 +697,30 @@ export function toJson_OperatorConfigurationConfigurationConnectionPooler(obj: O
 /* eslint-enable max-len, quote-props */
 
 /**
- * @schema OperatorConfigurationConfigurationPatroni
+ * @schema PostgresqlSpecPostgresql
  */
-export interface OperatorConfigurationConfigurationPatroni {
+export interface PostgresqlSpecPostgresql {
   /**
-   * @schema OperatorConfigurationConfigurationPatroni#enable_patroni_failsafe_mode
+   * @schema PostgresqlSpecPostgresql#version
    */
-  readonly enablePatroniFailsafeMode?: boolean;
+  readonly version: PostgresqlSpecPostgresqlVersion;
+
+  /**
+   * @schema PostgresqlSpecPostgresql#parameters
+   */
+  readonly parameters?: { [key: string]: string };
 
 }
 
 /**
- * Converts an object of type 'OperatorConfigurationConfigurationPatroni' to JSON representation.
+ * Converts an object of type 'PostgresqlSpecPostgresql' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_OperatorConfigurationConfigurationPatroni(obj: OperatorConfigurationConfigurationPatroni | undefined): Record<string, any> | undefined {
+export function toJson_PostgresqlSpecPostgresql(obj: PostgresqlSpecPostgresql | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
-    'enable_patroni_failsafe_mode': obj.enablePatroniFailsafeMode,
+    'version': obj.version,
+    'parameters': ((obj.parameters) === undefined) ? undefined : (Object.entries(obj.parameters).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {})),
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
@@ -1526,66 +728,42 @@ export function toJson_OperatorConfigurationConfigurationPatroni(obj: OperatorCo
 /* eslint-enable max-len, quote-props */
 
 /**
- * @schema OperatorConfigurationConfigurationKubernetesInfrastructureRolesSecrets
+ * @schema PostgresqlSpecPreparedDatabases
  */
-export interface OperatorConfigurationConfigurationKubernetesInfrastructureRolesSecrets {
+export interface PostgresqlSpecPreparedDatabases {
   /**
-   * @schema OperatorConfigurationConfigurationKubernetesInfrastructureRolesSecrets#secretname
+   * @schema PostgresqlSpecPreparedDatabases#defaultUsers
    */
-  readonly secretname: string;
+  readonly defaultUsers?: boolean;
 
   /**
-   * @schema OperatorConfigurationConfigurationKubernetesInfrastructureRolesSecrets#userkey
+   * @schema PostgresqlSpecPreparedDatabases#extensions
    */
-  readonly userkey: string;
+  readonly extensions?: { [key: string]: string };
 
   /**
-   * @schema OperatorConfigurationConfigurationKubernetesInfrastructureRolesSecrets#passwordkey
+   * @schema PostgresqlSpecPreparedDatabases#schemas
    */
-  readonly passwordkey: string;
+  readonly schemas?: { [key: string]: PostgresqlSpecPreparedDatabasesSchemas };
 
   /**
-   * @schema OperatorConfigurationConfigurationKubernetesInfrastructureRolesSecrets#rolekey
+   * @schema PostgresqlSpecPreparedDatabases#secretNamespace
    */
-  readonly rolekey?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetesInfrastructureRolesSecrets#defaultuservalue
-   */
-  readonly defaultuservalue?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetesInfrastructureRolesSecrets#defaultrolevalue
-   */
-  readonly defaultrolevalue?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetesInfrastructureRolesSecrets#details
-   */
-  readonly details?: string;
-
-  /**
-   * @schema OperatorConfigurationConfigurationKubernetesInfrastructureRolesSecrets#template
-   */
-  readonly template?: boolean;
+  readonly secretNamespace?: string;
 
 }
 
 /**
- * Converts an object of type 'OperatorConfigurationConfigurationKubernetesInfrastructureRolesSecrets' to JSON representation.
+ * Converts an object of type 'PostgresqlSpecPreparedDatabases' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_OperatorConfigurationConfigurationKubernetesInfrastructureRolesSecrets(obj: OperatorConfigurationConfigurationKubernetesInfrastructureRolesSecrets | undefined): Record<string, any> | undefined {
+export function toJson_PostgresqlSpecPreparedDatabases(obj: PostgresqlSpecPreparedDatabases | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
-    'secretname': obj.secretname,
-    'userkey': obj.userkey,
-    'passwordkey': obj.passwordkey,
-    'rolekey': obj.rolekey,
-    'defaultuservalue': obj.defaultuservalue,
-    'defaultrolevalue': obj.defaultrolevalue,
-    'details': obj.details,
-    'template': obj.template,
+    'defaultUsers': obj.defaultUsers,
+    'extensions': ((obj.extensions) === undefined) ? undefined : (Object.entries(obj.extensions).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {})),
+    'schemas': ((obj.schemas) === undefined) ? undefined : (Object.entries(obj.schemas).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: toJson_PostgresqlSpecPreparedDatabasesSchemas(i[1]) }), {})),
+    'secretNamespace': obj.secretNamespace,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
@@ -1593,40 +771,30 @@ export function toJson_OperatorConfigurationConfigurationKubernetesInfrastructur
 /* eslint-enable max-len, quote-props */
 
 /**
- * @schema OperatorConfigurationConfigurationKubernetesNodeReadinessLabelMerge
+ * @schema PostgresqlSpecResources
  */
-export enum OperatorConfigurationConfigurationKubernetesNodeReadinessLabelMerge {
-  /** AND */
-  AND = "AND",
-  /** OR */
-  OR = "OR",
-}
-
-/**
- * @schema OperatorConfigurationConfigurationKubernetesPersistentVolumeClaimRetentionPolicy
- */
-export interface OperatorConfigurationConfigurationKubernetesPersistentVolumeClaimRetentionPolicy {
+export interface PostgresqlSpecResources {
   /**
-   * @schema OperatorConfigurationConfigurationKubernetesPersistentVolumeClaimRetentionPolicy#when_deleted
+   * @schema PostgresqlSpecResources#limits
    */
-  readonly whenDeleted?: OperatorConfigurationConfigurationKubernetesPersistentVolumeClaimRetentionPolicyWhenDeleted;
+  readonly limits?: PostgresqlSpecResourcesLimits;
 
   /**
-   * @schema OperatorConfigurationConfigurationKubernetesPersistentVolumeClaimRetentionPolicy#when_scaled
+   * @schema PostgresqlSpecResources#requests
    */
-  readonly whenScaled?: OperatorConfigurationConfigurationKubernetesPersistentVolumeClaimRetentionPolicyWhenScaled;
+  readonly requests?: PostgresqlSpecResourcesRequests;
 
 }
 
 /**
- * Converts an object of type 'OperatorConfigurationConfigurationKubernetesPersistentVolumeClaimRetentionPolicy' to JSON representation.
+ * Converts an object of type 'PostgresqlSpecResources' to JSON representation.
  */
 /* eslint-disable max-len, quote-props */
-export function toJson_OperatorConfigurationConfigurationKubernetesPersistentVolumeClaimRetentionPolicy(obj: OperatorConfigurationConfigurationKubernetesPersistentVolumeClaimRetentionPolicy | undefined): Record<string, any> | undefined {
+export function toJson_PostgresqlSpecResources(obj: PostgresqlSpecResources | undefined): Record<string, any> | undefined {
   if (obj === undefined) { return undefined; }
   const result = {
-    'when_deleted': obj.whenDeleted,
-    'when_scaled': obj.whenScaled,
+    'limits': toJson_PostgresqlSpecResourcesLimits(obj.limits),
+    'requests': toJson_PostgresqlSpecResourcesRequests(obj.requests),
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
@@ -1634,55 +802,312 @@ export function toJson_OperatorConfigurationConfigurationKubernetesPersistentVol
 /* eslint-enable max-len, quote-props */
 
 /**
- * @schema OperatorConfigurationConfigurationKubernetesPodManagementPolicy
+ * @schema PostgresqlSpecStandby
  */
-export enum OperatorConfigurationConfigurationKubernetesPodManagementPolicy {
-  /** ordered_ready */
-  ORDERED_UNDERSCORE_READY = "ordered_ready",
-  /** parallel */
-  PARALLEL = "parallel",
+export interface PostgresqlSpecStandby {
+  /**
+   * @schema PostgresqlSpecStandby#s3_wal_path
+   */
+  readonly s3WalPath?: string;
+
+  /**
+   * @schema PostgresqlSpecStandby#gs_wal_path
+   */
+  readonly gsWalPath?: string;
+
+  /**
+   * @schema PostgresqlSpecStandby#standby_host
+   */
+  readonly standbyHost?: string;
+
+  /**
+   * @schema PostgresqlSpecStandby#standby_port
+   */
+  readonly standbyPort?: string;
+
 }
 
 /**
- * @schema OperatorConfigurationConfigurationKubernetesStorageResizeMode
+ * Converts an object of type 'PostgresqlSpecStandby' to JSON representation.
  */
-export enum OperatorConfigurationConfigurationKubernetesStorageResizeMode {
-  /** ebs */
-  EBS = "ebs",
-  /** mixed */
-  MIXED = "mixed",
-  /** pvc */
-  PVC = "pvc",
-  /** off */
-  OFF = "off",
+/* eslint-disable max-len, quote-props */
+export function toJson_PostgresqlSpecStandby(obj: PostgresqlSpecStandby | undefined): Record<string, any> | undefined {
+  if (obj === undefined) { return undefined; }
+  const result = {
+    's3_wal_path': obj.s3WalPath,
+    'gs_wal_path': obj.gsWalPath,
+    'standby_host': obj.standbyHost,
+    'standby_port': obj.standbyPort,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * @schema PostgresqlSpecStreams
+ */
+export interface PostgresqlSpecStreams {
+  /**
+   * @schema PostgresqlSpecStreams#applicationId
+   */
+  readonly applicationId: string;
+
+  /**
+   * @schema PostgresqlSpecStreams#batchSize
+   */
+  readonly batchSize?: number;
+
+  /**
+   * @schema PostgresqlSpecStreams#cpu
+   */
+  readonly cpu?: string;
+
+  /**
+   * @schema PostgresqlSpecStreams#database
+   */
+  readonly database: string;
+
+  /**
+   * @schema PostgresqlSpecStreams#enableRecovery
+   */
+  readonly enableRecovery?: boolean;
+
+  /**
+   * @schema PostgresqlSpecStreams#filter
+   */
+  readonly filter?: { [key: string]: string };
+
+  /**
+   * @schema PostgresqlSpecStreams#memory
+   */
+  readonly memory?: string;
+
+  /**
+   * @schema PostgresqlSpecStreams#tables
+   */
+  readonly tables: { [key: string]: PostgresqlSpecStreamsTables };
+
 }
 
 /**
- * @schema OperatorConfigurationConfigurationLoadBalancerExternalTrafficPolicy
+ * Converts an object of type 'PostgresqlSpecStreams' to JSON representation.
  */
-export enum OperatorConfigurationConfigurationLoadBalancerExternalTrafficPolicy {
-  /** Cluster */
-  CLUSTER = "Cluster",
-  /** Local */
-  LOCAL = "Local",
+/* eslint-disable max-len, quote-props */
+export function toJson_PostgresqlSpecStreams(obj: PostgresqlSpecStreams | undefined): Record<string, any> | undefined {
+  if (obj === undefined) { return undefined; }
+  const result = {
+    'applicationId': obj.applicationId,
+    'batchSize': obj.batchSize,
+    'cpu': obj.cpu,
+    'database': obj.database,
+    'enableRecovery': obj.enableRecovery,
+    'filter': ((obj.filter) === undefined) ? undefined : (Object.entries(obj.filter).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {})),
+    'memory': obj.memory,
+    'tables': ((obj.tables) === undefined) ? undefined : (Object.entries(obj.tables).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: toJson_PostgresqlSpecStreamsTables(i[1]) }), {})),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * @schema PostgresqlSpecTls
+ */
+export interface PostgresqlSpecTls {
+  /**
+   * @schema PostgresqlSpecTls#secretName
+   */
+  readonly secretName: string;
+
+  /**
+   * @schema PostgresqlSpecTls#certificateFile
+   */
+  readonly certificateFile?: string;
+
+  /**
+   * @schema PostgresqlSpecTls#privateKeyFile
+   */
+  readonly privateKeyFile?: string;
+
+  /**
+   * @schema PostgresqlSpecTls#caFile
+   */
+  readonly caFile?: string;
+
+  /**
+   * @schema PostgresqlSpecTls#caSecretName
+   */
+  readonly caSecretName?: string;
+
 }
 
 /**
- * @schema OperatorConfigurationConfigurationLogicalBackupLogicalBackupProvider
+ * Converts an object of type 'PostgresqlSpecTls' to JSON representation.
  */
-export enum OperatorConfigurationConfigurationLogicalBackupLogicalBackupProvider {
-  /** az */
-  AZ = "az",
-  /** gcs */
-  GCS = "gcs",
-  /** s3 */
-  S3 = "s3",
+/* eslint-disable max-len, quote-props */
+export function toJson_PostgresqlSpecTls(obj: PostgresqlSpecTls | undefined): Record<string, any> | undefined {
+  if (obj === undefined) { return undefined; }
+  const result = {
+    'secretName': obj.secretName,
+    'certificateFile': obj.certificateFile,
+    'privateKeyFile': obj.privateKeyFile,
+    'caFile': obj.caFile,
+    'caSecretName': obj.caSecretName,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * @schema PostgresqlSpecTolerations
+ */
+export interface PostgresqlSpecTolerations {
+  /**
+   * @schema PostgresqlSpecTolerations#key
+   */
+  readonly key?: string;
+
+  /**
+   * @schema PostgresqlSpecTolerations#operator
+   */
+  readonly operator?: PostgresqlSpecTolerationsOperator;
+
+  /**
+   * @schema PostgresqlSpecTolerations#value
+   */
+  readonly value?: string;
+
+  /**
+   * @schema PostgresqlSpecTolerations#effect
+   */
+  readonly effect?: PostgresqlSpecTolerationsEffect;
+
+  /**
+   * @schema PostgresqlSpecTolerations#tolerationSeconds
+   */
+  readonly tolerationSeconds?: number;
+
 }
 
 /**
- * @schema OperatorConfigurationConfigurationConnectionPoolerConnectionPoolerMode
+ * Converts an object of type 'PostgresqlSpecTolerations' to JSON representation.
  */
-export enum OperatorConfigurationConfigurationConnectionPoolerConnectionPoolerMode {
+/* eslint-disable max-len, quote-props */
+export function toJson_PostgresqlSpecTolerations(obj: PostgresqlSpecTolerations | undefined): Record<string, any> | undefined {
+  if (obj === undefined) { return undefined; }
+  const result = {
+    'key': obj.key,
+    'operator': obj.operator,
+    'value': obj.value,
+    'effect': obj.effect,
+    'tolerationSeconds': obj.tolerationSeconds,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * @schema PostgresqlSpecUsers
+ */
+export enum PostgresqlSpecUsers {
+  /** bypassrls */
+  BYPASSRLS = "bypassrls",
+  /** nobypassrls */
+  NOBYPASSRLS = "nobypassrls",
+  /** createdb */
+  CREATEDB = "createdb",
+  /** nocreatedb */
+  NOCREATEDB = "nocreatedb",
+  /** createrole */
+  CREATEROLE = "createrole",
+  /** nocreaterole */
+  NOCREATEROLE = "nocreaterole",
+  /** inherit */
+  INHERIT = "inherit",
+  /** noinherit */
+  NOINHERIT = "noinherit",
+  /** login */
+  LOGIN = "login",
+  /** nologin */
+  NOLOGIN = "nologin",
+  /** replication */
+  REPLICATION = "replication",
+  /** noreplication */
+  NOREPLICATION = "noreplication",
+  /** superuser */
+  SUPERUSER = "superuser",
+  /** nosuperuser */
+  NOSUPERUSER = "nosuperuser",
+}
+
+/**
+ * @schema PostgresqlSpecVolume
+ */
+export interface PostgresqlSpecVolume {
+  /**
+   * @schema PostgresqlSpecVolume#isSubPathExpr
+   */
+  readonly isSubPathExpr?: boolean;
+
+  /**
+   * @schema PostgresqlSpecVolume#iops
+   */
+  readonly iops?: number;
+
+  /**
+   * @schema PostgresqlSpecVolume#selector
+   */
+  readonly selector?: PostgresqlSpecVolumeSelector;
+
+  /**
+   * @schema PostgresqlSpecVolume#size
+   */
+  readonly size: string;
+
+  /**
+   * @schema PostgresqlSpecVolume#storageClass
+   */
+  readonly storageClass?: string;
+
+  /**
+   * @schema PostgresqlSpecVolume#subPath
+   */
+  readonly subPath?: string;
+
+  /**
+   * @schema PostgresqlSpecVolume#throughput
+   */
+  readonly throughput?: number;
+
+}
+
+/**
+ * Converts an object of type 'PostgresqlSpecVolume' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_PostgresqlSpecVolume(obj: PostgresqlSpecVolume | undefined): Record<string, any> | undefined {
+  if (obj === undefined) { return undefined; }
+  const result = {
+    'isSubPathExpr': obj.isSubPathExpr,
+    'iops': obj.iops,
+    'selector': toJson_PostgresqlSpecVolumeSelector(obj.selector),
+    'size': obj.size,
+    'storageClass': obj.storageClass,
+    'subPath': obj.subPath,
+    'throughput': obj.throughput,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * @schema PostgresqlSpecConnectionPoolerMode
+ */
+export enum PostgresqlSpecConnectionPoolerMode {
   /** session */
   SESSION = "session",
   /** transaction */
@@ -1690,22 +1115,647 @@ export enum OperatorConfigurationConfigurationConnectionPoolerConnectionPoolerMo
 }
 
 /**
- * @schema OperatorConfigurationConfigurationKubernetesPersistentVolumeClaimRetentionPolicyWhenDeleted
+ * @schema PostgresqlSpecConnectionPoolerResources
  */
-export enum OperatorConfigurationConfigurationKubernetesPersistentVolumeClaimRetentionPolicyWhenDeleted {
-  /** delete */
-  DELETE = "delete",
-  /** retain */
-  RETAIN = "retain",
+export interface PostgresqlSpecConnectionPoolerResources {
+  /**
+   * @schema PostgresqlSpecConnectionPoolerResources#limits
+   */
+  readonly limits?: PostgresqlSpecConnectionPoolerResourcesLimits;
+
+  /**
+   * @schema PostgresqlSpecConnectionPoolerResources#requests
+   */
+  readonly requests?: PostgresqlSpecConnectionPoolerResourcesRequests;
+
 }
 
 /**
- * @schema OperatorConfigurationConfigurationKubernetesPersistentVolumeClaimRetentionPolicyWhenScaled
+ * Converts an object of type 'PostgresqlSpecConnectionPoolerResources' to JSON representation.
  */
-export enum OperatorConfigurationConfigurationKubernetesPersistentVolumeClaimRetentionPolicyWhenScaled {
-  /** delete */
-  DELETE = "delete",
-  /** retain */
-  RETAIN = "retain",
+/* eslint-disable max-len, quote-props */
+export function toJson_PostgresqlSpecConnectionPoolerResources(obj: PostgresqlSpecConnectionPoolerResources | undefined): Record<string, any> | undefined {
+  if (obj === undefined) { return undefined; }
+  const result = {
+    'limits': toJson_PostgresqlSpecConnectionPoolerResourcesLimits(obj.limits),
+    'requests': toJson_PostgresqlSpecConnectionPoolerResourcesRequests(obj.requests),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * @schema PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution
+ */
+export interface PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * @schema PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution#preference
+   */
+  readonly preference: PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference;
+
+  /**
+   * @schema PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
+   */
+  readonly weight: number;
+
+}
+
+/**
+ * Converts an object of type 'PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(obj: PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution | undefined): Record<string, any> | undefined {
+  if (obj === undefined) { return undefined; }
+  const result = {
+    'preference': toJson_PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference(obj.preference),
+    'weight': obj.weight,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * @schema PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution
+ */
+export interface PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * @schema PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution#nodeSelectorTerms
+   */
+  readonly nodeSelectorTerms: PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms[];
+
+}
+
+/**
+ * Converts an object of type 'PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(obj: PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution | undefined): Record<string, any> | undefined {
+  if (obj === undefined) { return undefined; }
+  const result = {
+    'nodeSelectorTerms': obj.nodeSelectorTerms?.map(y => toJson_PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms(y)),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * @schema PostgresqlSpecPostgresqlVersion
+ */
+export enum PostgresqlSpecPostgresqlVersion {
+  /** 13 */
+  VALUE_13 = "13",
+  /** 14 */
+  VALUE_14 = "14",
+  /** 15 */
+  VALUE_15 = "15",
+  /** 16 */
+  VALUE_16 = "16",
+  /** 17 */
+  VALUE_17 = "17",
+}
+
+/**
+ * @schema PostgresqlSpecPreparedDatabasesSchemas
+ */
+export interface PostgresqlSpecPreparedDatabasesSchemas {
+  /**
+   * @schema PostgresqlSpecPreparedDatabasesSchemas#defaultUsers
+   */
+  readonly defaultUsers?: boolean;
+
+  /**
+   * @schema PostgresqlSpecPreparedDatabasesSchemas#defaultRoles
+   */
+  readonly defaultRoles?: boolean;
+
+}
+
+/**
+ * Converts an object of type 'PostgresqlSpecPreparedDatabasesSchemas' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_PostgresqlSpecPreparedDatabasesSchemas(obj: PostgresqlSpecPreparedDatabasesSchemas | undefined): Record<string, any> | undefined {
+  if (obj === undefined) { return undefined; }
+  const result = {
+    'defaultUsers': obj.defaultUsers,
+    'defaultRoles': obj.defaultRoles,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * @schema PostgresqlSpecResourcesLimits
+ */
+export interface PostgresqlSpecResourcesLimits {
+  /**
+   * @schema PostgresqlSpecResourcesLimits#cpu
+   */
+  readonly cpu?: string;
+
+  /**
+   * @schema PostgresqlSpecResourcesLimits#memory
+   */
+  readonly memory?: string;
+
+  /**
+   * @schema PostgresqlSpecResourcesLimits#hugepages-2Mi
+   */
+  readonly hugepages2Mi?: string;
+
+  /**
+   * @schema PostgresqlSpecResourcesLimits#hugepages-1Gi
+   */
+  readonly hugepages1Gi?: string;
+
+}
+
+/**
+ * Converts an object of type 'PostgresqlSpecResourcesLimits' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_PostgresqlSpecResourcesLimits(obj: PostgresqlSpecResourcesLimits | undefined): Record<string, any> | undefined {
+  if (obj === undefined) { return undefined; }
+  const result = {
+    'cpu': obj.cpu,
+    'memory': obj.memory,
+    'hugepages-2Mi': obj.hugepages2Mi,
+    'hugepages-1Gi': obj.hugepages1Gi,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * @schema PostgresqlSpecResourcesRequests
+ */
+export interface PostgresqlSpecResourcesRequests {
+  /**
+   * @schema PostgresqlSpecResourcesRequests#cpu
+   */
+  readonly cpu?: string;
+
+  /**
+   * @schema PostgresqlSpecResourcesRequests#memory
+   */
+  readonly memory?: string;
+
+  /**
+   * @schema PostgresqlSpecResourcesRequests#hugepages-2Mi
+   */
+  readonly hugepages2Mi?: string;
+
+  /**
+   * @schema PostgresqlSpecResourcesRequests#hugepages-1Gi
+   */
+  readonly hugepages1Gi?: string;
+
+}
+
+/**
+ * Converts an object of type 'PostgresqlSpecResourcesRequests' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_PostgresqlSpecResourcesRequests(obj: PostgresqlSpecResourcesRequests | undefined): Record<string, any> | undefined {
+  if (obj === undefined) { return undefined; }
+  const result = {
+    'cpu': obj.cpu,
+    'memory': obj.memory,
+    'hugepages-2Mi': obj.hugepages2Mi,
+    'hugepages-1Gi': obj.hugepages1Gi,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * @schema PostgresqlSpecStreamsTables
+ */
+export interface PostgresqlSpecStreamsTables {
+  /**
+   * @schema PostgresqlSpecStreamsTables#eventType
+   */
+  readonly eventType: string;
+
+  /**
+   * @schema PostgresqlSpecStreamsTables#idColumn
+   */
+  readonly idColumn?: string;
+
+  /**
+   * @schema PostgresqlSpecStreamsTables#ignoreRecovery
+   */
+  readonly ignoreRecovery?: boolean;
+
+  /**
+   * @schema PostgresqlSpecStreamsTables#payloadColumn
+   */
+  readonly payloadColumn?: string;
+
+  /**
+   * @schema PostgresqlSpecStreamsTables#recoveryEventType
+   */
+  readonly recoveryEventType?: string;
+
+}
+
+/**
+ * Converts an object of type 'PostgresqlSpecStreamsTables' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_PostgresqlSpecStreamsTables(obj: PostgresqlSpecStreamsTables | undefined): Record<string, any> | undefined {
+  if (obj === undefined) { return undefined; }
+  const result = {
+    'eventType': obj.eventType,
+    'idColumn': obj.idColumn,
+    'ignoreRecovery': obj.ignoreRecovery,
+    'payloadColumn': obj.payloadColumn,
+    'recoveryEventType': obj.recoveryEventType,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * @schema PostgresqlSpecTolerationsOperator
+ */
+export enum PostgresqlSpecTolerationsOperator {
+  /** Equal */
+  EQUAL = "Equal",
+  /** Exists */
+  EXISTS = "Exists",
+}
+
+/**
+ * @schema PostgresqlSpecTolerationsEffect
+ */
+export enum PostgresqlSpecTolerationsEffect {
+  /** NoExecute */
+  NO_EXECUTE = "NoExecute",
+  /** NoSchedule */
+  NO_SCHEDULE = "NoSchedule",
+  /** PreferNoSchedule */
+  PREFER_NO_SCHEDULE = "PreferNoSchedule",
+}
+
+/**
+ * @schema PostgresqlSpecVolumeSelector
+ */
+export interface PostgresqlSpecVolumeSelector {
+  /**
+   * @schema PostgresqlSpecVolumeSelector#matchExpressions
+   */
+  readonly matchExpressions?: PostgresqlSpecVolumeSelectorMatchExpressions[];
+
+  /**
+   * @schema PostgresqlSpecVolumeSelector#matchLabels
+   */
+  readonly matchLabels?: any;
+
+}
+
+/**
+ * Converts an object of type 'PostgresqlSpecVolumeSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_PostgresqlSpecVolumeSelector(obj: PostgresqlSpecVolumeSelector | undefined): Record<string, any> | undefined {
+  if (obj === undefined) { return undefined; }
+  const result = {
+    'matchExpressions': obj.matchExpressions?.map(y => toJson_PostgresqlSpecVolumeSelectorMatchExpressions(y)),
+    'matchLabels': obj.matchLabels,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * @schema PostgresqlSpecConnectionPoolerResourcesLimits
+ */
+export interface PostgresqlSpecConnectionPoolerResourcesLimits {
+  /**
+   * @schema PostgresqlSpecConnectionPoolerResourcesLimits#cpu
+   */
+  readonly cpu?: string;
+
+  /**
+   * @schema PostgresqlSpecConnectionPoolerResourcesLimits#memory
+   */
+  readonly memory?: string;
+
+}
+
+/**
+ * Converts an object of type 'PostgresqlSpecConnectionPoolerResourcesLimits' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_PostgresqlSpecConnectionPoolerResourcesLimits(obj: PostgresqlSpecConnectionPoolerResourcesLimits | undefined): Record<string, any> | undefined {
+  if (obj === undefined) { return undefined; }
+  const result = {
+    'cpu': obj.cpu,
+    'memory': obj.memory,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * @schema PostgresqlSpecConnectionPoolerResourcesRequests
+ */
+export interface PostgresqlSpecConnectionPoolerResourcesRequests {
+  /**
+   * @schema PostgresqlSpecConnectionPoolerResourcesRequests#cpu
+   */
+  readonly cpu?: string;
+
+  /**
+   * @schema PostgresqlSpecConnectionPoolerResourcesRequests#memory
+   */
+  readonly memory?: string;
+
+}
+
+/**
+ * Converts an object of type 'PostgresqlSpecConnectionPoolerResourcesRequests' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_PostgresqlSpecConnectionPoolerResourcesRequests(obj: PostgresqlSpecConnectionPoolerResourcesRequests | undefined): Record<string, any> | undefined {
+  if (obj === undefined) { return undefined; }
+  const result = {
+    'cpu': obj.cpu,
+    'memory': obj.memory,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * @schema PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference
+ */
+export interface PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference {
+  /**
+   * @schema PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference#matchExpressions
+   */
+  readonly matchExpressions?: PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions[];
+
+  /**
+   * @schema PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference#matchFields
+   */
+  readonly matchFields?: PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields[];
+
+}
+
+/**
+ * Converts an object of type 'PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference(obj: PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference | undefined): Record<string, any> | undefined {
+  if (obj === undefined) { return undefined; }
+  const result = {
+    'matchExpressions': obj.matchExpressions?.map(y => toJson_PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions(y)),
+    'matchFields': obj.matchFields?.map(y => toJson_PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields(y)),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * @schema PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms
+ */
+export interface PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms {
+  /**
+   * @schema PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms#matchExpressions
+   */
+  readonly matchExpressions?: PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions[];
+
+  /**
+   * @schema PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms#matchFields
+   */
+  readonly matchFields?: PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields[];
+
+}
+
+/**
+ * Converts an object of type 'PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms(obj: PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms | undefined): Record<string, any> | undefined {
+  if (obj === undefined) { return undefined; }
+  const result = {
+    'matchExpressions': obj.matchExpressions?.map(y => toJson_PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions(y)),
+    'matchFields': obj.matchFields?.map(y => toJson_PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields(y)),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * @schema PostgresqlSpecVolumeSelectorMatchExpressions
+ */
+export interface PostgresqlSpecVolumeSelectorMatchExpressions {
+  /**
+   * @schema PostgresqlSpecVolumeSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * @schema PostgresqlSpecVolumeSelectorMatchExpressions#operator
+   */
+  readonly operator: PostgresqlSpecVolumeSelectorMatchExpressionsOperator;
+
+  /**
+   * @schema PostgresqlSpecVolumeSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+
+}
+
+/**
+ * Converts an object of type 'PostgresqlSpecVolumeSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_PostgresqlSpecVolumeSelectorMatchExpressions(obj: PostgresqlSpecVolumeSelectorMatchExpressions | undefined): Record<string, any> | undefined {
+  if (obj === undefined) { return undefined; }
+  const result = {
+    'key': obj.key,
+    'operator': obj.operator,
+    'values': obj.values?.map(y => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * @schema PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions
+ */
+export interface PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions {
+  /**
+   * @schema PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * @schema PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * @schema PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#values
+   */
+  readonly values?: string[];
+
+}
+
+/**
+ * Converts an object of type 'PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions(obj: PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions | undefined): Record<string, any> | undefined {
+  if (obj === undefined) { return undefined; }
+  const result = {
+    'key': obj.key,
+    'operator': obj.operator,
+    'values': obj.values?.map(y => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * @schema PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields
+ */
+export interface PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields {
+  /**
+   * @schema PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#key
+   */
+  readonly key: string;
+
+  /**
+   * @schema PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#operator
+   */
+  readonly operator: string;
+
+  /**
+   * @schema PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#values
+   */
+  readonly values?: string[];
+
+}
+
+/**
+ * Converts an object of type 'PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields(obj: PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields | undefined): Record<string, any> | undefined {
+  if (obj === undefined) { return undefined; }
+  const result = {
+    'key': obj.key,
+    'operator': obj.operator,
+    'values': obj.values?.map(y => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * @schema PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions
+ */
+export interface PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions {
+  /**
+   * @schema PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * @schema PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * @schema PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#values
+   */
+  readonly values?: string[];
+
+}
+
+/**
+ * Converts an object of type 'PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions(obj: PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions | undefined): Record<string, any> | undefined {
+  if (obj === undefined) { return undefined; }
+  const result = {
+    'key': obj.key,
+    'operator': obj.operator,
+    'values': obj.values?.map(y => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * @schema PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields
+ */
+export interface PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields {
+  /**
+   * @schema PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#key
+   */
+  readonly key: string;
+
+  /**
+   * @schema PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#operator
+   */
+  readonly operator: string;
+
+  /**
+   * @schema PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#values
+   */
+  readonly values?: string[];
+
+}
+
+/**
+ * Converts an object of type 'PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields(obj: PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields | undefined): Record<string, any> | undefined {
+  if (obj === undefined) { return undefined; }
+  const result = {
+    'key': obj.key,
+    'operator': obj.operator,
+    'values': obj.values?.map(y => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * @schema PostgresqlSpecVolumeSelectorMatchExpressionsOperator
+ */
+export enum PostgresqlSpecVolumeSelectorMatchExpressionsOperator {
+  /** DoesNotExist */
+  DOES_NOT_EXIST = "DoesNotExist",
+  /** Exists */
+  EXISTS = "Exists",
+  /** In */
+  IN = "In",
+  /** NotIn */
+  NOT_IN = "NotIn",
 }
 

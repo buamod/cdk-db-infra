@@ -28,29 +28,6 @@ Install Zalando Postgres Operator CRDs:
 ### For Local k8s only ( Testing )
 - install k3s [See the other README](./clusters/local/README.md)
 
-
-
-### Install PostgreSQL CRD
-```sh
-kubectl apply -f https://raw.githubusercontent.com/zalando/postgres-operator/master/manifests/postgresql.crd.yaml
-```
-
-### Install Operator Configuration CRD
-
-```sh
-kubectl apply -f https://raw.githubusercontent.com/zalando/postgres-operator/master/manifests/operatorconfiguration.crd.yaml
-```
-
-### Apply ConfigMap for operator settings
-```sh
-kubectl apply -f https://raw.githubusercontent.com/zalando/postgres-operator/master/manifests/configmap.yaml
-```
-
-### Apply RBAC and ServiceAccount configurations
-```sh
-kubectl apply -f https://raw.githubusercontent.com/zalando/postgres-operator/master/manifests/operator-service-account-rbac.yaml
-```
-
 ### Synthesize and deploy:
 
 ```sh

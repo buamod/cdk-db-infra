@@ -1,39 +1,38 @@
-// database.ts
 import { Construct } from 'constructs';
-import { ApiObject } from 'cdk8s';
+import { Postgresql, PostgresqlSpecPostgresqlVersion, PostgresqlSpecUsers } from './imports/acid.zalan.do';
 
 export interface PostgresDatabaseProps {
   name: string;
   owner?: string;
   size?: string;
-  version?: string;
+  version?: PostgresqlSpecPostgresqlVersion;
 }
 
 export class PostgresDatabase extends Construct {
   constructor(scope: Construct, id: string, props: PostgresDatabaseProps) {
     super(scope, id);
 
-    new ApiObject(this, 'postgresql', {
-      apiVersion: 'acid.zalan.do/v1',
-      kind: 'postgresql',
-      metadata: {
-        name: props.name
+    new Postgresql(this, 'postgresql-instance', {
+      metadata: { 
+        name: props.name 
       },
       spec: {
         teamId: 'acid',
         postgresql: {
-          version: props.version || '14',
+          version: props.version || PostgresqlSpecPostgresqlVersion.VALUE_14
         },
         volume: {
           size: props.size || '10Gi',
-          storageClass: 'local-path'  // Add this line - using k3d's default storage class
-        },
-        users: {
-          [props.owner || 'postgres']: ['superuser']
+          storageClass: 'local-path'
         },
         numberOfInstances: 1,
         databases: {
           [props.name]: props.owner || 'postgres'
+        },
+        users: {
+          'postgres': [
+            PostgresqlSpecUsers.SUPERUSER
+          ]
         }
       }
     });

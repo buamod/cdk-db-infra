@@ -2,5 +2,3 @@ language: typescript
 app: npx ts-node main.ts
 imports:
   - k8s
-  - crds/postgresql.crd.yaml
-  - crds/operatorconfiguration.crd.yaml
